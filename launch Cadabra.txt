@@ -1,0 +1,1 @@
+docker run -p 9057:9057 -v "D:/TSC:/home/cadabra" kpeeters/cadabra2-jupyter
