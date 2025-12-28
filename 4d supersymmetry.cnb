@@ -1,0 +1,791 @@
+{
+	"cell_id": 11727393329360273003,
+	"cells": [
+		{
+			"cell_id": 17785588611668312309,
+			"cell_origin": "client",
+			"cell_type": "latex",
+			"cells": [
+				{
+					"cell_id": 16761364777941230618,
+					"cell_origin": "client",
+					"cell_type": "latex_view",
+					"source": "We consider 4d N=1 supersymmetry, and use Cadabra to calculate the supersymmetric transformations of component fields, with the help of superfield. "
+				}
+			],
+			"hidden": true,
+			"source": "We consider 4d N=1 supersymmetry, and use Cadabra to calculate the supersymmetric transformations of component fields, with the help of superfield. "
+		},
+		{
+			"cell_id": 2641035563323065261,
+			"cell_origin": "client",
+			"cell_type": "input",
+			"source": "#--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------;"
+		},
+		{
+			"cell_id": 18328416575232109285,
+			"cell_origin": "client",
+			"cell_type": "input",
+			"cells": [
+				{
+					"cell_id": 6438839536922521591,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"source": "\\begin{dmath*}{}\\text{Property Indices(position=independent, values=\\{{1}\n, {1}  2\n\\}) attached to~}\\left[\\alpha, \\discretionary{}{}{}\\beta, \\discretionary{}{}{}\\gamma, \\discretionary{}{}{}\\zeta, \\discretionary{}{}{}\\eta\\right].\\end{dmath*}"
+				},
+				{
+					"cell_id": 5300803864665562037,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"source": "\\begin{dmath*}{}\\text{Property Indices(position=independent, values=\\{{1}\n, {1}  2\n\\}) attached to~}\\left[\\dot\\alpha, \\discretionary{}{}{}\\dot\\beta, \\discretionary{}{}{}\\dot\\gamma, \\discretionary{}{}{}\\dot\\zeta, \\discretionary{}{}{}\\dot\\eta\\right].\\end{dmath*}"
+				},
+				{
+					"cell_id": 6611637314445626697,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"source": "\\begin{dmath*}{}\\text{Property Indices(position=fixed, values=\\{{1}  0\n, {1}\n, {1}  2\n, {1}  3\n\\}) attached to~}\\left[\\mu, \\discretionary{}{}{}\\nu, \\discretionary{}{}{}\\rho, \\discretionary{}{}{}\\sigma\\right].\\end{dmath*}"
+				},
+				{
+					"cell_id": 14946854224798769824,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"source": "\\begin{dmath*}{}\\text{Property ImplicitIndex attached to~}\\sigma^{\\mu}.\\end{dmath*}"
+				},
+				{
+					"cell_id": 10762231378842677386,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"source": "\\begin{dmath*}{}\\text{Property ImplicitIndex attached to~}\\sigma_{\\mu}.\\end{dmath*}"
+				},
+				{
+					"cell_id": 13193904178046330781,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"source": "\\begin{dmath*}{}\\text{Property ImplicitIndex attached to~}\\theta.\\end{dmath*}"
+				},
+				{
+					"cell_id": 1008082366273609858,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"source": "\\begin{dmath*}{}\\text{Property ImplicitIndex attached to~}\\bar\\theta.\\end{dmath*}"
+				},
+				{
+					"cell_id": 8011470730850243558,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"cells": [
+						{
+							"cell_id": 16193245283469659320,
+							"cell_origin": "server",
+							"cell_type": "input_form",
+							"source": "\\theta^{\\alpha} \\theta^{\\alpha} \\theta^{\\beta} \\sigma^{\\mu}_{\\beta \\aldot} \\tbar^{\\aldot}"
+						}
+					],
+					"source": "\\begin{dmath*}{}\\theta^{\\alpha} \\theta^{\\alpha} \\theta^{\\beta} \\sigma^{\\mu}\\!\\,_{\\beta \\dot\\alpha} \\bar\\theta^{\\dot\\alpha}\\end{dmath*}"
+				}
+			],
+			"source": "\\tbar{#}::LaTeXForm(\"\\bar\\theta\").\n\\cbar{#}::LaTeXForm(\"\\bar\\chi\").\n\\lambar{#}::LaTeXForm(\"\\bar\\lambda\").\n\\sigbar{#}::LaTeXForm(\"\\bar\\sigma\").\n\\aldot{#}::LaTeXForm(\"\\dot\\alpha\").\n\\betdot{#}::LaTeXForm(\"\\dot\\beta\").\n\\gamdot{#}::LaTeXForm(\"\\dot\\gamma\").\n\\zetdot{#}::LaTeXForm(\"\\dot\\zeta\").\n\\etdot{#}::LaTeXForm(\"\\dot\\eta\").\n{\\alpha,\\beta,\\gamma,\\zeta,\\eta}::Indices(\"dotted\",position=independent,values={1,2});\n{\\aldot,\\betdot,\\gamdot,\\zetdot,\\etdot}::Indices(\"undotted\",position=independent,values={1,2});\n{\\mu,\\nu,\\rho,\\sigma}::Indices(\"vector\",position=fixed,values={0,1,2,3});\n\\sigma^{\\mu}::ImplicitIndex(\\sigma^\\mu_{\\alpha \\aldot});\n\\sigma_{\\mu}::ImplicitIndex(\\sigma_{\\mu \\alpha \\aldot});\n\\theta::ImplicitIndex(\\theta^{\\alpha});\n\\tbar::ImplicitIndex(\\tbar^{\\aldot});\nexplicit_indices($(\\theta\\theta)(\\theta \\sigma^\\mu \\tbar)$);"
+		},
+		{
+			"cell_id": 9065262042481255696,
+			"cell_origin": "client",
+			"cell_type": "latex",
+			"cells": [
+				{
+					"cell_id": 51763455790834952,
+					"cell_origin": "client",
+					"cell_type": "latex_view",
+					"source": "First we define a general superfield $F$. Since PartialDerivative in Cadabra can only be applied to bosonic terms, we have to write the expression in a carefully designed way, otherwise the Leibniz law fails. \\\\\n\\begin{equation}\nF(x,\\theta,\\bar\\theta)=f(x)+\\theta\\phi(x)+\\bar\\theta\\bar\\chi(x)\\\\+\\theta\\theta m(x)+\\bar\\theta\\bar\\theta n(x)+\\theta\\sigma^m\\bar\\theta v_m(x)\\\\+\\theta\\theta\\bar\\theta\\bar\\lambda(x)+\\bar\\theta\\bar\\theta\\theta\\psi(x)+\\theta\\theta\\bar\\theta\\bar\\theta d(x)\n\\end{equation}"
+				}
+			],
+			"hidden": true,
+			"source": "First we define a general superfield $F$. Since PartialDerivative in Cadabra can only be applied to bosonic terms, we have to write the expression in a carefully designed way, otherwise the Leibniz law fails. \\\\\n\\begin{equation}\nF(x,\\theta,\\bar\\theta)=f(x)+\\theta\\phi(x)+\\bar\\theta\\bar\\chi(x)\\\\+\\theta\\theta m(x)+\\bar\\theta\\bar\\theta n(x)+\\theta\\sigma^m\\bar\\theta v_m(x)\\\\+\\theta\\theta\\bar\\theta\\bar\\lambda(x)+\\bar\\theta\\bar\\theta\\theta\\psi(x)+\\theta\\theta\\bar\\theta\\bar\\theta d(x)\n\\end{equation}"
+		},
+		{
+			"cell_id": 12984270831975726765,
+			"cell_origin": "client",
+			"cell_type": "input",
+			"cells": [
+				{
+					"cell_id": 15074598129860708718,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"cells": [
+						{
+							"cell_id": 5106597273917757480,
+							"cell_origin": "server",
+							"cell_type": "input_form",
+							"source": "F -> f + \\theta^{\\alpha} \\phi_{\\alpha} + \\tbar_{\\aldot} \\cbar^{\\aldot} + (\\theta \\theta) m + (\\tbar \\tbar) n + (\\theta \\sigma^{\\mu} \\tbar) v_{\\mu} + (\\theta \\theta) \\tbar_{\\aldot} \\lambar^{\\aldot} + (\\tbar \\tbar) \\theta^{\\alpha} \\psi_{\\alpha} + (\\theta \\theta) (\\tbar \\tbar) d"
+						}
+					],
+					"source": "\\begin{dmath*}{}F \\rightarrow f\\discretionary{}{}{}+\\theta^{\\alpha} \\phi_{\\alpha}\\discretionary{}{}{}+\\bar\\theta_{\\dot\\alpha} \\bar\\chi^{\\dot\\alpha}\\discretionary{}{}{}+\\left(\\theta \\theta\\right) m\\discretionary{}{}{}+\\left(\\bar\\theta \\bar\\theta\\right) n\\discretionary{}{}{}+\\left(\\theta \\sigma^{\\mu} \\bar\\theta\\right) v_{\\mu}\\discretionary{}{}{}+\\left(\\theta \\theta\\right) \\bar\\theta_{\\dot\\alpha} \\bar\\lambda^{\\dot\\alpha}\\discretionary{}{}{}+\\left(\\bar\\theta \\bar\\theta\\right) \\theta^{\\alpha} \\psi_{\\alpha}\\discretionary{}{}{}+\\left(\\theta \\theta\\right) \\left(\\bar\\theta \\bar\\theta\\right) d\\end{dmath*}"
+				}
+			],
+			"source": "Superfield:=F->(f+\\theta^{\\alpha} \\phi_{\\alpha}+\\tbar_{\\aldot} \\cbar^{\\aldot}\n+\\indexbracket{\\theta \\theta} m+\\indexbracket{\\tbar \\tbar} n+\\indexbracket{\\theta \\sigma^\\mu \\tbar} v_{\\mu} \n+\\indexbracket{\\theta \\theta} \\tbar_{\\aldot} \\lambar^{\\aldot})+\\indexbracket{\\tbar \\tbar} \\theta^{\\alpha} \\psi_{\\alpha}\n+\\indexbracket{\\theta \\theta} \\indexbracket{\\tbar \\tbar} d);"
+		},
+		{
+			"cell_id": 4943177737712894141,
+			"cell_origin": "client",
+			"cell_type": "latex",
+			"cells": [
+				{
+					"cell_id": 12083871252312517518,
+					"cell_origin": "client",
+					"cell_type": "latex_view",
+					"source": "Attach corresponding properties to partial derivatives in the superspace. $\\partial,\\bar\\partial$ act on $\\theta,\\bar\\theta$, while $\\hat\\partial$ acts on $x^\\mu$."
+				}
+			],
+			"hidden": true,
+			"source": "Attach corresponding properties to partial derivatives in the superspace. $\\partial,\\bar\\partial$ act on $\\theta,\\bar\\theta$, while $\\hat\\partial$ acts on $x^\\mu$."
+		},
+		{
+			"cell_id": 1908542650014690681,
+			"cell_origin": "client",
+			"cell_type": "input",
+			"cells": [
+				{
+					"cell_id": 16256556302345458036,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"source": "\\begin{dmath*}{}\\text{Property ImplicitIndex attached to~}\\backslash\\texttt{partial}\\{\\#\\}.\\end{dmath*}"
+				},
+				{
+					"cell_id": 4342102497496266811,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"source": "\\begin{dmath*}{}\\text{Property ImplicitIndex attached to~}\\backslash\\texttt{parbar}\\{\\#\\}.\\end{dmath*}"
+				},
+				{
+					"cell_id": 16362723385560262737,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"source": "\\begin{dmath*}{}\\text{Property PartialDerivative attached to~}\\left[\\backslash\\texttt{partial}\\{\\#\\}, \\discretionary{}{}{}\\backslash\\texttt{parbar}\\{\\#\\}, \\discretionary{}{}{}\\backslash\\texttt{partialmu}\\{\\#\\}\\right].\\end{dmath*}"
+				}
+			],
+			"source": "\\parbar{#}::LaTeXForm(\"\\bar\\partial\").\n\\partialmu{#}::LaTeXForm(\"\\hat\\partial\").\n\\xibar{#}::LaTeXForm(\"\\bar\\xi\").\n\\partial{#}::ImplicitIndex(\\partial{#}_{\\theta^{#}});\n\\parbar{#}::ImplicitIndex(\\parbar{#}_{\\tbar^{#});\n{\\partial{#},\\parbar{#},\\partialmu{#}}::PartialDerivative;"
+		},
+		{
+			"cell_id": 987819932840416487,
+			"cell_origin": "client",
+			"cell_type": "latex",
+			"cells": [
+				{
+					"cell_id": 15421014730131921995,
+					"cell_origin": "client",
+					"cell_type": "latex_view",
+					"source": "Define the Kronecker delta"
+				}
+			],
+			"hidden": true,
+			"source": "Define $\\epsilon$ and the Kronecker delta"
+		},
+		{
+			"cell_id": 10670476900317939693,
+			"cell_origin": "client",
+			"cell_type": "input",
+			"cells": [
+				{
+					"cell_id": 11750275361896572225,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"source": "\\begin{dmath*}{}\\text{Property AntiSymmetric attached to~}\\epsilon_{\\alpha \\beta}.\\end{dmath*}"
+				},
+				{
+					"cell_id": 16088612492035369079,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"source": "\\begin{dmath*}{}\\text{Property AntiSymmetric attached to~}\\epsilon^{\\alpha \\beta}.\\end{dmath*}"
+				},
+				{
+					"cell_id": 17687034429913953225,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"source": "\\begin{dmath*}{}\\text{Property AntiSymmetric attached to~}\\epsilon_{\\dot\\alpha \\dot\\beta}.\\end{dmath*}"
+				},
+				{
+					"cell_id": 1860466943235515877,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"source": "\\begin{dmath*}{}\\text{Property AntiSymmetric attached to~}\\epsilon^{\\dot\\alpha \\dot\\beta}.\\end{dmath*}"
+				},
+				{
+					"cell_id": 4695553347112855331,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"source": "\\begin{dmath*}{}\\text{Property KroneckerDelta attached to~}\\left[\\delta_{\\alpha}\\!\\,^{\\beta}, \\discretionary{}{}{}\\delta^{\\alpha}\\!\\,_{\\beta}\\right].\\end{dmath*}"
+				},
+				{
+					"cell_id": 2472426115591643952,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"source": "\\begin{dmath*}{}\\text{Property KroneckerDelta attached to~}\\left[\\delta^{\\dot\\alpha}\\!\\,_{\\dot\\beta}, \\discretionary{}{}{}\\delta_{\\dot\\alpha}\\!\\,^{\\dot\\beta}\\right].\\end{dmath*}"
+				}
+			],
+			"source": "\\epsilon_{\\alpha \\beta}::AntiSymmetric;\n\\epsilon^{\\alpha \\beta}::AntiSymmetric;\n\\epsilon_{\\aldot \\betdot}::AntiSymmetric;\n\\epsilon^{\\aldot \\betdot}::AntiSymmetric;\n{\\delta_{\\alpha}^{\\beta},\\delta^{\\alpha}_{\\beta}}::KroneckerDelta;\n{\\delta^{\\aldot}_{\\betdot},\\delta_{\\aldot}^{\\betdot}}::KroneckerDelta;"
+		},
+		{
+			"cell_id": 15167096136177692963,
+			"cell_origin": "client",
+			"cell_type": "latex",
+			"cells": [
+				{
+					"cell_id": 1733117849252421653,
+					"cell_origin": "client",
+					"cell_type": "latex_view",
+					"source": "The operator generating an infinitesimal susy transformation of the superfield is defined as\\\\\n\\begin{equation}\n\t\\xi Q+\\bar\\xi \\bar Q=\\xi^\\alpha(\\frac{\\partial}{\\partial\\theta^{\\alpha}}-i(\\sigma^\\mu)_{\\alpha\\dot\\alpha}\\bar\\theta^{\\dot\\alpha}\\partial_\\mu)+\\bar\\xi_{\\dot\\alpha}(\\frac{\\partial}{\\partial\\bar\\theta_{\\dot\\alpha}}-i\\theta^\\alpha(\\sigma^\\mu)_{\\alpha\\dot\\beta}\\epsilon^{\\dot\\beta\\dot\\alpha}\\partial_\\mu)\n\\end{equation}"
+				}
+			],
+			"hidden": true,
+			"source": "The operator generating an infinitesimal susy transformation of the superfield is defined as\\\\\n\\begin{equation}\n\t\\xi Q+\\bar\\xi \\bar Q=\\xi^\\alpha(\\frac{\\partial}{\\partial\\theta^{\\alpha}}-i(\\sigma^\\mu)_{\\alpha\\dot\\alpha}\\bar\\theta^{\\dot\\alpha}\\partial_\\mu)+\\bar\\xi_{\\dot\\alpha}(\\frac{\\partial}{\\partial\\bar\\theta_{\\dot\\alpha}}-i\\theta^\\alpha(\\sigma^\\mu)_{\\alpha\\dot\\beta}\\epsilon^{\\dot\\beta\\dot\\alpha}\\partial_\\mu)\n\\end{equation}"
+		},
+		{
+			"cell_id": 10183496759523547312,
+			"cell_origin": "client",
+			"cell_type": "input",
+			"cells": [
+				{
+					"cell_id": 67925976541220973,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"cells": [
+						{
+							"cell_id": 4321798879046973085,
+							"cell_origin": "server",
+							"cell_type": "input_form",
+							"source": "\\xi^{\\alpha} \\partial_{\\alpha}(F)-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} \\partialmu_{\\mu}(F) + \\xibar_{\\aldot} \\parbar^{\\aldot}(F)-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\partialmu_{\\mu}(F)"
+						}
+					],
+					"source": "\\begin{dmath*}{}\\xi^{\\alpha} \\partial_{\\alpha}\\!{F}\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\hat\\partial_{\\mu}\\!{F}\\discretionary{}{}{}+\\bar\\xi_{\\dot\\alpha} \\bar\\partial^{\\dot\\alpha}\\!{F}\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\hat\\partial_{\\mu}\\!{F}\\end{dmath*}"
+				}
+			],
+			"source": "susy:=\\xi^{\\alpha} \\partial_{\\alpha}{F}-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} \\partialmu_{\\mu}{F}\n+\\xibar_{\\aldot} \\parbar^{\\aldot}{F}-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha\\aldot} \\xibar^{\\aldot} \\partialmu_{\\mu}{F};"
+		},
+		{
+			"cell_id": 7970873102793026166,
+			"cell_origin": "client",
+			"cell_type": "latex",
+			"cells": [
+				{
+					"cell_id": 4328896624536349596,
+					"cell_origin": "client",
+					"cell_type": "latex_view",
+					"source": "we specify how the derivatives act on the superfields, and whom they act on,"
+				}
+			],
+			"hidden": true,
+			"source": "we specify how the derivatives act on the superfields, and whom they act on,"
+		},
+		{
+			"cell_id": 4517610808525397016,
+			"cell_origin": "client",
+			"cell_type": "input",
+			"cells": [
+				{
+					"cell_id": 14480417698932021243,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"cells": [
+						{
+							"cell_id": 9789573260101011041,
+							"cell_origin": "server",
+							"cell_type": "input_form",
+							"source": "{\\partial_{\\alpha}(\\theta^{\\beta}) -> \\delta_{\\alpha}^{\\beta}, \\parbar^{\\aldot}(\\tbar_{\\betdot}) -> \\delta^{\\aldot}_{\\betdot}, \\partial_{\\alpha}((\\theta \\theta)) -> 2\\theta_{\\alpha}, \\parbar^{\\aldot}((\\tbar \\tbar)) -> 2\\tbar^{\\aldot}, \\partial_{\\alpha}((\\theta \\sigma^{\\mu} \\tbar)) -> \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot}, \\parbar^{\\aldot}((\\theta \\sigma^{\\mu} \\tbar)) -> -\\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\betdot} \\epsilon^{\\betdot \\aldot}}"
+						}
+					],
+					"source": "\\begin{dmath*}{}\\left[\\partial_{\\alpha}\\!{\\theta^{\\beta}} \\rightarrow \\delta_{\\alpha}\\!\\,^{\\beta}, \\discretionary{}{}{}\\bar\\partial^{\\dot\\alpha}\\!{\\bar\\theta_{\\dot\\beta}} \\rightarrow \\delta^{\\dot\\alpha}\\!\\,_{\\dot\\beta}, \\discretionary{}{}{}\\partial_{\\alpha}\\!\\left(\\left(\\theta \\theta\\right)\\right) \\rightarrow 2\\,\\theta_{\\alpha}, \\discretionary{}{}{}\\bar\\partial^{\\dot\\alpha}\\!\\left(\\left(\\bar\\theta \\bar\\theta\\right)\\right) \\rightarrow 2\\,\\bar\\theta^{\\dot\\alpha}, \\discretionary{}{}{}\\partial_{\\alpha}\\!\\left(\\left(\\theta \\sigma^{\\mu} \\bar\\theta\\right)\\right) \\rightarrow \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha}, \\discretionary{}{}{}\\bar\\partial^{\\dot\\alpha}\\!\\left(\\left(\\theta \\sigma^{\\mu} \\bar\\theta\\right)\\right) \\rightarrow -\\,\\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\beta} \\epsilon^{\\dot\\beta \\dot\\alpha}\\right]\\end{dmath*}"
+				},
+				{
+					"cell_id": 7871736675160419374,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"source": "\\begin{dmath*}{}\\text{Property Depends attached to~}\\left[\\backslash\\texttt{theta}\\{\\#\\}, \\discretionary{}{}{}\\left(\\theta \\theta\\right), \\discretionary{}{}{}\\left(\\theta \\sigma^{\\mu} \\bar\\theta\\right)\\right].\\end{dmath*}"
+				},
+				{
+					"cell_id": 2153413136417915846,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"source": "\\begin{dmath*}{}\\text{Property Depends attached to~}\\left[\\backslash\\texttt{tbar}\\{\\#\\}, \\discretionary{}{}{}\\left(\\bar\\theta \\bar\\theta\\right), \\discretionary{}{}{}\\left(\\theta \\sigma^{\\mu} \\bar\\theta\\right)\\right].\\end{dmath*}"
+				},
+				{
+					"cell_id": 8428671887787462627,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"source": "\\begin{dmath*}{}\\text{Property Depends attached to~}\\left[f, \\discretionary{}{}{}\\phi_{\\alpha}, \\discretionary{}{}{}\\bar\\chi^{\\dot\\alpha}, \\discretionary{}{}{}m, \\discretionary{}{}{}n, \\discretionary{}{}{}v_{\\mu}, \\discretionary{}{}{}\\bar\\lambda^{\\dot\\alpha}, \\discretionary{}{}{}\\psi_{\\alpha}, \\discretionary{}{}{}d\\right].\\end{dmath*}"
+				}
+			],
+			"source": "superderivative:={\n\\partial_{\\alpha}{\\theta^{\\beta}}->\\delta_{\\alpha}^{\\beta},\n\\parbar^{\\aldot}{\\tbar_{\\betdot}}->\\delta^{\\aldot}_{\\betdot},\n\\partial_{\\alpha}{\\indexbracket(\\theta \\theta)}->2\\theta_{\\alpha},\n\\parbar^{\\aldot}{\\indexbracket{\\tbar \\tbar}}->2\\tbar^{\\aldot},\n\\partial_{\\alpha}{\\indexbracket{\\theta \\sigma^{\\mu} \\tbar}}->\\sigma^\\mu_{\\alpha \\aldot} \\tbar^{\\aldot},\n\\parbar^{\\aldot}{\\indexbracket{\\theta \\sigma^{\\mu} \\tbar}}->-\\theta^{\\alpha}\\sigma^\\mu_{\\alpha \\betdot}\\epsilon^{\\betdot \\aldot}\n};\n{\\theta^{#},\\indexbracket{\\theta \\theta},\\indexbracket{\\theta \\sigma^\\mu \\tbar}}::Depends(\\partial{#});\n{\\tbar_{#},\\indexbracket{\\tbar \\tbar},\\indexbracket{\\theta \\sigma^\\mu \\tbar}}::Depends(\\parbar{#});\n{f,\\phi_{\\alpha},\\cbar^{\\aldot},m,n,v_{\\mu},\\lambar^{\\aldot},\\psi_{\\alpha},d}::Depends(\\partialmu{#});"
+		},
+		{
+			"cell_id": 3383926669068321509,
+			"cell_origin": "client",
+			"cell_type": "latex",
+			"cells": [
+				{
+					"cell_id": 11184126652329576495,
+					"cell_origin": "client",
+					"cell_type": "latex_view",
+					"source": "Now we perform the susy transformation on the superfield. Product_rule applies the Leibniz rule, while unwrap discards the irrelevant derivatives. "
+				}
+			],
+			"hidden": true,
+			"source": "Now we perform the susy transformation on the superfield. Product_rule applies the Leibniz rule, while unwrap discards the irrelevant derivatives. "
+		},
+		{
+			"cell_id": 9819273524229948853,
+			"cell_origin": "client",
+			"cell_type": "input",
+			"cells": [
+				{
+					"cell_id": 8914144895390109290,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"cells": [
+						{
+							"cell_id": 84917472725736995,
+							"cell_origin": "server",
+							"cell_type": "input_form",
+							"source": "\\xi^{\\alpha} \\partial_{\\alpha}((f + \\theta^{\\beta} \\phi_{\\beta} + \\tbar_{\\aldot} \\cbar^{\\aldot} + (\\theta \\theta) m + (\\tbar \\tbar) n + (\\theta \\sigma^{\\mu} \\tbar) v_{\\mu} + (\\theta \\theta) \\tbar_{\\aldot} \\lambar^{\\aldot} + (\\tbar \\tbar) \\theta^{\\beta} \\psi_{\\beta} + (\\theta \\theta) (\\tbar \\tbar) d))-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} \\partialmu_{\\mu}(f + \\theta^{\\beta} \\phi_{\\beta} + \\tbar_{\\betdot} \\cbar^{\\betdot} + (\\theta \\theta) m + (\\tbar \\tbar) n + (\\theta \\sigma^{\\nu} \\tbar) v_{\\nu} + (\\theta \\theta) \\tbar_{\\betdot} \\lambar^{\\betdot} + (\\tbar \\tbar) \\theta^{\\beta} \\psi_{\\beta} + (\\theta \\theta) (\\tbar \\tbar) d) + \\xibar_{\\aldot} \\parbar^{\\aldot}(f + \\theta^{\\alpha} \\phi_{\\alpha} + \\tbar_{\\betdot} \\cbar^{\\betdot} + (\\theta \\theta) m + (\\tbar \\tbar) n + (\\theta \\sigma^{\\mu} \\tbar) v_{\\mu} + (\\theta \\theta) \\tbar_{\\betdot} \\lambar^{\\betdot} + (\\tbar \\tbar) \\theta^{\\alpha} \\psi_{\\alpha} + (\\theta \\theta) (\\tbar \\tbar) d)-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\partialmu_{\\mu}(f + \\theta^{\\beta} \\phi_{\\beta} + \\tbar_{\\betdot} \\cbar^{\\betdot} + (\\theta \\theta) m + (\\tbar \\tbar) n + (\\theta \\sigma^{\\nu} \\tbar) v_{\\nu} + (\\theta \\theta) \\tbar_{\\betdot} \\lambar^{\\betdot} + (\\tbar \\tbar) \\theta^{\\beta} \\psi_{\\beta} + (\\theta \\theta) (\\tbar \\tbar) d)"
+						}
+					],
+					"source": "\\begin{dmath*}{}\\xi^{\\alpha} \\partial_{\\alpha}\\!\\left(f\\discretionary{}{}{}+\\theta^{\\beta} \\phi_{\\beta}\\discretionary{}{}{}+\\bar\\theta_{\\dot\\alpha} \\bar\\chi^{\\dot\\alpha}\\discretionary{}{}{}+\\left(\\theta \\theta\\right) m\\discretionary{}{}{}+\\left(\\bar\\theta \\bar\\theta\\right) n\\discretionary{}{}{}+\\left(\\theta \\sigma^{\\mu} \\bar\\theta\\right) v_{\\mu}\\discretionary{}{}{}+\\left(\\theta \\theta\\right) \\bar\\theta_{\\dot\\alpha} \\bar\\lambda^{\\dot\\alpha}\\discretionary{}{}{}+\\left(\\bar\\theta \\bar\\theta\\right) \\theta^{\\beta} \\psi_{\\beta}\\discretionary{}{}{}+\\left(\\theta \\theta\\right) \\left(\\bar\\theta \\bar\\theta\\right) d\\right)\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\hat\\partial_{\\mu}\\!\\left(f\\discretionary{}{}{}+\\theta^{\\beta} \\phi_{\\beta}\\discretionary{}{}{}+\\bar\\theta_{\\dot\\beta} \\bar\\chi^{\\dot\\beta}\\discretionary{}{}{}+\\left(\\theta \\theta\\right) m\\discretionary{}{}{}+\\left(\\bar\\theta \\bar\\theta\\right) n\\discretionary{}{}{}+\\left(\\theta \\sigma^{\\nu} \\bar\\theta\\right) v_{\\nu}\\discretionary{}{}{}+\\left(\\theta \\theta\\right) \\bar\\theta_{\\dot\\beta} \\bar\\lambda^{\\dot\\beta}\\discretionary{}{}{}+\\left(\\bar\\theta \\bar\\theta\\right) \\theta^{\\beta} \\psi_{\\beta}\\discretionary{}{}{}+\\left(\\theta \\theta\\right) \\left(\\bar\\theta \\bar\\theta\\right) d\\right)\\discretionary{}{}{}+\\bar\\xi_{\\dot\\alpha} \\bar\\partial^{\\dot\\alpha}\\!\\left(f\\discretionary{}{}{}+\\theta^{\\alpha} \\phi_{\\alpha}\\discretionary{}{}{}+\\bar\\theta_{\\dot\\beta} \\bar\\chi^{\\dot\\beta}\\discretionary{}{}{}+\\left(\\theta \\theta\\right) m\\discretionary{}{}{}+\\left(\\bar\\theta \\bar\\theta\\right) n\\discretionary{}{}{}+\\left(\\theta \\sigma^{\\mu} \\bar\\theta\\right) v_{\\mu}\\discretionary{}{}{}+\\left(\\theta \\theta\\right) \\bar\\theta_{\\dot\\beta} \\bar\\lambda^{\\dot\\beta}\\discretionary{}{}{}+\\left(\\bar\\theta \\bar\\theta\\right) \\theta^{\\alpha} \\psi_{\\alpha}\\discretionary{}{}{}+\\left(\\theta \\theta\\right) \\left(\\bar\\theta \\bar\\theta\\right) d\\right)\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\hat\\partial_{\\mu}\\!\\left(f\\discretionary{}{}{}+\\theta^{\\beta} \\phi_{\\beta}\\discretionary{}{}{}+\\bar\\theta_{\\dot\\beta} \\bar\\chi^{\\dot\\beta}\\discretionary{}{}{}+\\left(\\theta \\theta\\right) m\\discretionary{}{}{}+\\left(\\bar\\theta \\bar\\theta\\right) n\\discretionary{}{}{}+\\left(\\theta \\sigma^{\\nu} \\bar\\theta\\right) v_{\\nu}\\discretionary{}{}{}+\\left(\\theta \\theta\\right) \\bar\\theta_{\\dot\\beta} \\bar\\lambda^{\\dot\\beta}\\discretionary{}{}{}+\\left(\\bar\\theta \\bar\\theta\\right) \\theta^{\\beta} \\psi_{\\beta}\\discretionary{}{}{}+\\left(\\theta \\theta\\right) \\left(\\bar\\theta \\bar\\theta\\right) d\\right)\\end{dmath*}"
+				},
+				{
+					"cell_id": 4307836617104147589,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"cells": [
+						{
+							"cell_id": 7068840831506325797,
+							"cell_origin": "server",
+							"cell_type": "input_form",
+							"source": "\\xi^{\\alpha} \\delta_{\\alpha}^{\\beta} \\phi_{\\beta} + 2\\xi^{\\alpha} \\theta_{\\alpha} m + 2\\xi^{\\alpha} \\theta_{\\alpha} \\tbar_{\\aldot} \\lambar^{\\aldot} + \\xi^{\\alpha} (\\tbar \\tbar) \\delta_{\\alpha}^{\\beta} \\psi_{\\beta} + 2\\xi^{\\alpha} \\theta_{\\alpha} (\\tbar \\tbar) d-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} \\partialmu_{\\mu}(f)-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} \\theta^{\\beta} \\partialmu_{\\mu}(\\phi_{\\beta})-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} \\tbar_{\\betdot} \\partialmu_{\\mu}(\\cbar^{\\betdot})-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} (\\theta \\theta) \\partialmu_{\\mu}(m)-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} (\\tbar \\tbar) \\partialmu_{\\mu}(n)-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} (\\theta \\sigma^{\\nu} \\tbar) \\partialmu_{\\mu}(v_{\\nu})-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} (\\theta \\theta) \\tbar_{\\betdot} \\partialmu_{\\mu}(\\lambar^{\\betdot})-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} (\\tbar \\tbar) \\theta^{\\beta} \\partialmu_{\\mu}(\\psi_{\\beta})-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} (\\theta \\theta) (\\tbar \\tbar) \\partialmu_{\\mu}(d) + \\xibar_{\\aldot} \\delta^{\\aldot}_{\\betdot} \\cbar^{\\betdot} + 2\\xibar_{\\aldot} \\tbar^{\\aldot} n-\\xibar_{\\aldot} \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\betdot} \\epsilon^{\\betdot \\aldot} v_{\\mu} + \\xibar_{\\aldot} (\\theta \\theta) \\delta^{\\aldot}_{\\betdot} \\lambar^{\\betdot} + 2\\xibar_{\\aldot} \\tbar^{\\aldot} \\theta^{\\alpha} \\psi_{\\alpha} + 2\\xibar_{\\aldot} (\\theta \\theta) \\tbar^{\\aldot} d-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\partialmu_{\\mu}(f)-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\theta^{\\beta} \\partialmu_{\\mu}(\\phi_{\\beta})-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\tbar_{\\betdot} \\partialmu_{\\mu}(\\cbar^{\\betdot})-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} (\\theta \\theta) \\partialmu_{\\mu}(m)-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} (\\tbar \\tbar) \\partialmu_{\\mu}(n)-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} (\\theta \\sigma^{\\nu} \\tbar) \\partialmu_{\\mu}(v_{\\nu})-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} (\\theta \\theta) \\tbar_{\\betdot} \\partialmu_{\\mu}(\\lambar^{\\betdot})-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} (\\tbar \\tbar) \\theta^{\\beta} \\partialmu_{\\mu}(\\psi_{\\beta})-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} (\\theta \\theta) (\\tbar \\tbar) \\partialmu_{\\mu}(d)"
+						}
+					],
+					"source": "\\begin{dmath*}{}\\xi^{\\alpha} \\delta_{\\alpha}\\!\\,^{\\beta} \\phi_{\\beta}\\discretionary{}{}{}+2\\,\\xi^{\\alpha} \\theta_{\\alpha} m\\discretionary{}{}{}+2\\,\\xi^{\\alpha} \\theta_{\\alpha} \\bar\\theta_{\\dot\\alpha} \\bar\\lambda^{\\dot\\alpha}\\discretionary{}{}{}+\\xi^{\\alpha} \\left(\\bar\\theta \\bar\\theta\\right) \\delta_{\\alpha}\\!\\,^{\\beta} \\psi_{\\beta}\\discretionary{}{}{}+2\\,\\xi^{\\alpha} \\theta_{\\alpha} \\left(\\bar\\theta \\bar\\theta\\right) d\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\hat\\partial_{\\mu}\\!{f}\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\theta^{\\beta} \\hat\\partial_{\\mu}\\!{\\phi_{\\beta}}\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\bar\\theta_{\\dot\\beta} \\hat\\partial_{\\mu}\\!{\\bar\\chi^{\\dot\\beta}}\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\left(\\theta \\theta\\right) \\hat\\partial_{\\mu}\\!{m}\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\left(\\bar\\theta \\bar\\theta\\right) \\hat\\partial_{\\mu}\\!{n}\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\left(\\theta \\sigma^{\\nu} \\bar\\theta\\right) \\hat\\partial_{\\mu}\\!{v_{\\nu}}\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\left(\\theta \\theta\\right) \\bar\\theta_{\\dot\\beta} \\hat\\partial_{\\mu}\\!{\\bar\\lambda^{\\dot\\beta}}\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\left(\\bar\\theta \\bar\\theta\\right) \\theta^{\\beta} \\hat\\partial_{\\mu}\\!{\\psi_{\\beta}}\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\left(\\theta \\theta\\right) \\left(\\bar\\theta \\bar\\theta\\right) \\hat\\partial_{\\mu}\\!{d}\\discretionary{}{}{}+\\bar\\xi_{\\dot\\alpha} \\delta^{\\dot\\alpha}\\!\\,_{\\dot\\beta} \\bar\\chi^{\\dot\\beta}\\discretionary{}{}{}+2\\,\\bar\\xi_{\\dot\\alpha} \\bar\\theta^{\\dot\\alpha} n\\discretionary{}{}{}-\\,\\bar\\xi_{\\dot\\alpha} \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\beta} \\epsilon^{\\dot\\beta \\dot\\alpha} v_{\\mu}\\discretionary{}{}{}+\\bar\\xi_{\\dot\\alpha} \\left(\\theta \\theta\\right) \\delta^{\\dot\\alpha}\\!\\,_{\\dot\\beta} \\bar\\lambda^{\\dot\\beta}\\discretionary{}{}{}+2\\,\\bar\\xi_{\\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\theta^{\\alpha} \\psi_{\\alpha}\\discretionary{}{}{}%\n+2\\,\\bar\\xi_{\\dot\\alpha} \\left(\\theta \\theta\\right) \\bar\\theta^{\\dot\\alpha} d\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\hat\\partial_{\\mu}\\!{f}\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\theta^{\\beta} \\hat\\partial_{\\mu}\\!{\\phi_{\\beta}}\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\bar\\theta_{\\dot\\beta} \\hat\\partial_{\\mu}\\!{\\bar\\chi^{\\dot\\beta}}\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\left(\\theta \\theta\\right) \\hat\\partial_{\\mu}\\!{m}\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\left(\\bar\\theta \\bar\\theta\\right) \\hat\\partial_{\\mu}\\!{n}\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\left(\\theta \\sigma^{\\nu} \\bar\\theta\\right) \\hat\\partial_{\\mu}\\!{v_{\\nu}}\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\left(\\theta \\theta\\right) \\bar\\theta_{\\dot\\beta} \\hat\\partial_{\\mu}\\!{\\bar\\lambda^{\\dot\\beta}}\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\left(\\bar\\theta \\bar\\theta\\right) \\theta^{\\beta} \\hat\\partial_{\\mu}\\!{\\psi_{\\beta}}\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\left(\\theta \\theta\\right) \\left(\\bar\\theta \\bar\\theta\\right) \\hat\\partial_{\\mu}\\!{d}\\end{dmath*}"
+				}
+			],
+			"source": "substitute(susy,Superfield);\ndistribute(susy)\nproduct_rule(susy)\nunwrap(susy)\nsubstitute(susy,superderivative);"
+		},
+		{
+			"cell_id": 6775651088108602459,
+			"cell_origin": "client",
+			"cell_type": "latex",
+			"cells": [
+				{
+					"cell_id": 6775651088108602459,
+					"cell_origin": "client",
+					"cell_type": "latex_view",
+					"source": "Attach anti-commuting properties to spinors"
+				}
+			],
+			"hidden": true,
+			"source": "Attach anti-commuting properties to spinors"
+		},
+		{
+			"cell_id": 8926392300548069674,
+			"cell_origin": "client",
+			"cell_type": "latex",
+			"cells": [
+				{
+					"cell_id": 8025476953924611716,
+					"cell_origin": "client",
+					"cell_type": "latex_view",
+					"source": "Now we have get rid of the Grassmann derivatives, and have more freedom to simplify. Before further calculation, first we modify our post_process function"
+				}
+			],
+			"hidden": true,
+			"source": "Now we have get rid of the Grassmann derivatives, and have more freedom to simplify. Before further calculation, first we modify our post_process function"
+		},
+		{
+			"cell_id": 17178957794742713647,
+			"cell_origin": "client",
+			"cell_type": "input",
+			"source": "def post_process(ex):\n\tdistribute(ex)\n\tproduct_rule(ex)\n\tunwrap(ex)\n\teliminate_kronecker(ex)\n\tcanonicalise(ex)\n\tcollect_terms(ex)"
+		},
+		{
+			"cell_id": 2034894184024677697,
+			"cell_origin": "client",
+			"cell_type": "latex",
+			"cells": [
+				{
+					"cell_id": 14249721226365764259,
+					"cell_origin": "client",
+					"cell_type": "latex_view",
+					"source": "and attach anticommuting property to the spinors"
+				}
+			],
+			"hidden": true,
+			"source": "and attach anticommuting property to the spinors"
+		},
+		{
+			"cell_id": 13952731051197588819,
+			"cell_origin": "client",
+			"cell_type": "input",
+			"cells": [
+				{
+					"cell_id": 10224204512428014514,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"source": "\\begin{dmath*}{}\\text{Property AntiCommuting attached to~}\\left[\\theta^{\\alpha}, \\discretionary{}{}{}\\bar\\theta^{\\dot\\alpha}, \\discretionary{}{}{}\\theta_{\\alpha}, \\discretionary{}{}{}\\bar\\theta_{\\dot\\alpha}, \\discretionary{}{}{}\\xi^{\\alpha}, \\discretionary{}{}{}\\bar\\xi_{\\dot\\alpha}, \\discretionary{}{}{}\\phi_{\\alpha}, \\discretionary{}{}{}\\phi^{\\alpha}, \\discretionary{}{}{}\\bar\\chi_{\\dot\\alpha}, \\discretionary{}{}{}\\bar\\chi^{\\dot\\alpha}, \\discretionary{}{}{}\\bar\\lambda_{\\dot\\alpha}, \\discretionary{}{}{}\\bar\\lambda^{\\dot\\alpha}, \\discretionary{}{}{}\\psi_{\\alpha}, \\discretionary{}{}{}\\psi^{\\alpha}\\right].\\end{dmath*}"
+				},
+				{
+					"cell_id": 17165565277125391630,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"source": "\\begin{dmath*}{}\\text{Property SelfAntiCommuting attached to~}\\left[\\theta^{\\alpha}, \\discretionary{}{}{}\\bar\\theta^{\\dot\\alpha}, \\discretionary{}{}{}\\theta_{\\alpha}, \\discretionary{}{}{}\\bar\\theta_{\\dot\\alpha}, \\discretionary{}{}{}\\xi^{\\alpha}, \\discretionary{}{}{}\\bar\\xi_{\\dot\\alpha}, \\discretionary{}{}{}\\phi_{\\alpha}, \\discretionary{}{}{}\\phi^{\\alpha}, \\discretionary{}{}{}\\bar\\chi_{\\dot\\alpha}, \\discretionary{}{}{}\\bar\\chi^{\\dot\\alpha}, \\discretionary{}{}{}\\bar\\lambda_{\\dot\\alpha}, \\discretionary{}{}{}\\bar\\lambda^{\\dot\\alpha}, \\discretionary{}{}{}\\psi_{\\alpha}, \\discretionary{}{}{}\\psi^{\\alpha}\\right].\\end{dmath*}"
+				}
+			],
+			"source": "{\\theta^{\\alpha},\\tbar^{\\aldot},\\theta_{\\alpha},\\tbar_{\\aldot},\\xi^{\\alpha},\\xibar_{\\aldot},\\phi_{\\alpha},\\phi^{\\alpha},\\cbar_{\\aldot},\\cbar^{\\aldot},\\lambar_{\\aldot},\\lambar^{\\aldot},\\psi_{\\alpha},\\psi^{\\alpha}}::AntiCommuting;\n{\\theta^{\\alpha},\\tbar^{\\aldot},\\theta_{\\alpha},\\tbar_{\\aldot},\\xi^{\\alpha},\\xibar_{\\aldot},\\phi_{\\alpha},\\phi^{\\alpha},\\cbar_{\\aldot},\\cbar^{\\aldot},\\lambar_{\\aldot},\\lambar^{\\aldot},\\psi_{\\alpha},\\psi^{\\alpha}}::SelfAntiCommuting;"
+		},
+		{
+			"cell_id": 8691966853829085842,
+			"cell_origin": "client",
+			"cell_type": "latex",
+			"cells": [
+				{
+					"cell_id": 15131057782994219524,
+					"cell_origin": "client",
+					"cell_type": "latex_view",
+					"source": "next we teach Cadabra how to contract $\\epsilon$ with the spinors, and how to contract two $\\epsilon$:"
+				}
+			],
+			"hidden": true,
+			"source": "next we teach Cadabra how to contract $\\epsilon$ with the spinors, and how to contract two $\\epsilon$:"
+		},
+		{
+			"cell_id": 15729864651581915335,
+			"cell_origin": "client",
+			"cell_type": "input",
+			"cells": [
+				{
+					"cell_id": 4457231099720466609,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"cells": [
+						{
+							"cell_id": 4229686966400213980,
+							"cell_origin": "server",
+							"cell_type": "input_form",
+							"source": "{\\epsilon_{\\alpha \\beta} A?^{\\beta} -> A?_{\\alpha}, \\epsilon^{\\alpha \\beta} A?_{\\beta} -> A?^{\\alpha}, \\epsilon^{\\aldot \\betdot} A?_{\\betdot} -> A?^{\\aldot}, \\epsilon_{\\aldot \\betdot} A?^{\\betdot} -> A?_{\\aldot}, \\epsilon^{\\alpha \\beta} \\epsilon_{\\gamma \\beta} -> -\\delta^{\\alpha}_{\\gamma}, \\epsilon^{\\aldot \\betdot} \\epsilon_{\\gamdot \\betdot} -> -\\delta^{\\aldot}_{\\gamdot}}"
+						}
+					],
+					"source": "\\begin{dmath*}{}\\left[\\epsilon_{\\alpha \\beta} A?^{\\beta} \\rightarrow A?_{\\alpha}, \\discretionary{}{}{}\\epsilon^{\\alpha \\beta} A?_{\\beta} \\rightarrow A?^{\\alpha}, \\discretionary{}{}{}\\epsilon^{\\dot\\alpha \\dot\\beta} A?_{\\dot\\beta} \\rightarrow A?^{\\dot\\alpha}, \\discretionary{}{}{}\\epsilon_{\\dot\\alpha \\dot\\beta} A?^{\\dot\\beta} \\rightarrow A?_{\\dot\\alpha}, \\discretionary{}{}{}\\epsilon^{\\alpha \\beta} \\epsilon_{\\gamma \\beta} \\rightarrow -\\,\\delta^{\\alpha}\\!\\,_{\\gamma}, \\discretionary{}{}{}\\epsilon^{\\dot\\alpha \\dot\\beta} \\epsilon_{\\dot\\gamma \\dot\\beta} \\rightarrow -\\,\\delta^{\\dot\\alpha}\\!\\,_{\\dot\\gamma}\\right]\\end{dmath*}"
+				},
+				{
+					"cell_id": 14007935901322272899,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"cells": [
+						{
+							"cell_id": 3590449736791760085,
+							"cell_origin": "server",
+							"cell_type": "input_form",
+							"source": "\\xi^{\\beta} \\phi_{\\beta} + 2\\xi^{\\alpha} \\theta_{\\alpha} m + 2\\xi^{\\alpha} \\theta_{\\alpha} \\tbar_{\\aldot} \\lambar^{\\aldot} + \\xi^{\\beta} (\\tbar \\tbar) \\psi_{\\beta} + 2\\xi^{\\alpha} \\theta_{\\alpha} (\\tbar \\tbar) d-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} \\partialmu_{\\mu}(f)-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} \\theta^{\\beta} \\partialmu_{\\mu}(\\phi_{\\beta})-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} \\tbar_{\\betdot} \\partialmu_{\\mu}(\\cbar^{\\betdot})-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} (\\theta \\theta) \\partialmu_{\\mu}(m)-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} (\\tbar \\tbar) \\partialmu_{\\mu}(n)-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} (\\theta \\sigma^{\\nu} \\tbar) \\partialmu_{\\mu}(v_{\\nu})-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} (\\theta \\theta) \\tbar_{\\betdot} \\partialmu_{\\mu}(\\lambar^{\\betdot})-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} (\\tbar \\tbar) \\theta^{\\beta} \\partialmu_{\\mu}(\\psi_{\\beta})-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} (\\theta \\theta) (\\tbar \\tbar) \\partialmu_{\\mu}(d) + \\xibar_{\\betdot} \\cbar^{\\betdot} + 2\\xibar_{\\aldot} \\tbar^{\\aldot} n + \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\betdot} \\xibar^{\\betdot} v_{\\mu} + \\xibar_{\\betdot} (\\theta \\theta) \\lambar^{\\betdot} + 2\\xibar_{\\aldot} \\tbar^{\\aldot} \\theta^{\\alpha} \\psi_{\\alpha} + 2\\xibar_{\\aldot} (\\theta \\theta) \\tbar^{\\aldot} d-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\partialmu_{\\mu}(f)-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\theta^{\\beta} \\partialmu_{\\mu}(\\phi_{\\beta})-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\tbar_{\\betdot} \\partialmu_{\\mu}(\\cbar^{\\betdot})-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} (\\theta \\theta) \\partialmu_{\\mu}(m)-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} (\\tbar \\tbar) \\partialmu_{\\mu}(n)-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} (\\theta \\sigma^{\\nu} \\tbar) \\partialmu_{\\mu}(v_{\\nu})-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} (\\theta \\theta) \\tbar_{\\betdot} \\partialmu_{\\mu}(\\lambar^{\\betdot})-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} (\\tbar \\tbar) \\theta^{\\beta} \\partialmu_{\\mu}(\\psi_{\\beta})-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} (\\theta \\theta) (\\tbar \\tbar) \\partialmu_{\\mu}(d)"
+						}
+					],
+					"source": "\\begin{dmath*}{}\\xi^{\\beta} \\phi_{\\beta}\\discretionary{}{}{}+2\\,\\xi^{\\alpha} \\theta_{\\alpha} m\\discretionary{}{}{}+2\\,\\xi^{\\alpha} \\theta_{\\alpha} \\bar\\theta_{\\dot\\alpha} \\bar\\lambda^{\\dot\\alpha}\\discretionary{}{}{}+\\xi^{\\beta} \\left(\\bar\\theta \\bar\\theta\\right) \\psi_{\\beta}\\discretionary{}{}{}+2\\,\\xi^{\\alpha} \\theta_{\\alpha} \\left(\\bar\\theta \\bar\\theta\\right) d\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\hat\\partial_{\\mu}\\!{f}\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\theta^{\\beta} \\hat\\partial_{\\mu}\\!{\\phi_{\\beta}}\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\bar\\theta_{\\dot\\beta} \\hat\\partial_{\\mu}\\!{\\bar\\chi^{\\dot\\beta}}\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\left(\\theta \\theta\\right) \\hat\\partial_{\\mu}\\!{m}\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\left(\\bar\\theta \\bar\\theta\\right) \\hat\\partial_{\\mu}\\!{n}\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\left(\\theta \\sigma^{\\nu} \\bar\\theta\\right) \\hat\\partial_{\\mu}\\!{v_{\\nu}}\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\left(\\theta \\theta\\right) \\bar\\theta_{\\dot\\beta} \\hat\\partial_{\\mu}\\!{\\bar\\lambda^{\\dot\\beta}}\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\left(\\bar\\theta \\bar\\theta\\right) \\theta^{\\beta} \\hat\\partial_{\\mu}\\!{\\psi_{\\beta}}\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\left(\\theta \\theta\\right) \\left(\\bar\\theta \\bar\\theta\\right) \\hat\\partial_{\\mu}\\!{d}\\discretionary{}{}{}+\\bar\\xi_{\\dot\\beta} \\bar\\chi^{\\dot\\beta}\\discretionary{}{}{}+2\\,\\bar\\xi_{\\dot\\alpha} \\bar\\theta^{\\dot\\alpha} n\\discretionary{}{}{}+\\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\beta} \\bar\\xi^{\\dot\\beta} v_{\\mu}\\discretionary{}{}{}+\\bar\\xi_{\\dot\\beta} \\left(\\theta \\theta\\right) \\bar\\lambda^{\\dot\\beta}\\discretionary{}{}{}+2\\,\\bar\\xi_{\\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\theta^{\\alpha} \\psi_{\\alpha}\\discretionary{}{}{}%\n+2\\,\\bar\\xi_{\\dot\\alpha} \\left(\\theta \\theta\\right) \\bar\\theta^{\\dot\\alpha} d\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\hat\\partial_{\\mu}\\!{f}\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\theta^{\\beta} \\hat\\partial_{\\mu}\\!{\\phi_{\\beta}}\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\bar\\theta_{\\dot\\beta} \\hat\\partial_{\\mu}\\!{\\bar\\chi^{\\dot\\beta}}\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\left(\\theta \\theta\\right) \\hat\\partial_{\\mu}\\!{m}\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\left(\\bar\\theta \\bar\\theta\\right) \\hat\\partial_{\\mu}\\!{n}\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\left(\\theta \\sigma^{\\nu} \\bar\\theta\\right) \\hat\\partial_{\\mu}\\!{v_{\\nu}}\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\left(\\theta \\theta\\right) \\bar\\theta_{\\dot\\beta} \\hat\\partial_{\\mu}\\!{\\bar\\lambda^{\\dot\\beta}}\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\left(\\bar\\theta \\bar\\theta\\right) \\theta^{\\beta} \\hat\\partial_{\\mu}\\!{\\psi_{\\beta}}\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\left(\\theta \\theta\\right) \\left(\\bar\\theta \\bar\\theta\\right) \\hat\\partial_{\\mu}\\!{d}\\end{dmath*}"
+				}
+			],
+			"source": "eps_contraction:={\n\\epsilon_{\\alpha \\beta} A?^{\\beta}->A?_{\\alpha},\n\\epsilon^{\\alpha \\beta} A?_{\\beta}->A?^{\\alpha},\n\\epsilon^{\\aldot \\betdot} A?_{\\betdot}-> A?^{\\aldot},\n\\epsilon_{\\aldot \\betdot} A?^{\\betdot}-> A?_{\\aldot},\n-\\epsilon^{\\alpha \\beta} \\epsilon_{\\beta \\gamma}-> -\\delta^{\\alpha}_{\\gamma},\n-\\epsilon^{\\aldot \\betdot} \\epsilon_{\\betdot \\gamdot}-> -\\delta^{\\aldot}_{\\gamdot},\n,\n};\nsubstitute(susy, eps_contraction,repeat=True);"
+		},
+		{
+			"cell_id": 5137261479687548858,
+			"cell_origin": "client",
+			"cell_type": "latex",
+			"cells": [
+				{
+					"cell_id": 5137261479687548858,
+					"cell_origin": "client",
+					"cell_type": "latex_view",
+					"source": "note that any term with 3 or more $\\theta$ or $\\bar\\theta$ vanishes, because they are 2-component spinors, so we raise all the indices, then delete these terms:"
+				}
+			],
+			"hidden": true,
+			"source": "note that any term with 3 or more $\\theta$ or $\\bar\\theta$ vanishes, because they are 2-component spinors, so we raise all the indices, then delete these terms:"
+		},
+		{
+			"cell_id": 12907009157911064113,
+			"cell_origin": "client",
+			"cell_type": "input",
+			"cells": [
+				{
+					"cell_id": 457157301327367586,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"cells": [
+						{
+							"cell_id": 16540218148498288082,
+							"cell_origin": "server",
+							"cell_type": "input_form",
+							"source": "{(\\theta \\theta) -> \\theta^{\\alpha} \\theta_{\\alpha}, (\\tbar \\tbar) -> \\tbar_{\\aldot} \\tbar^{\\aldot}, (\\theta \\sigma^{\\mu} \\tbar) -> \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot}}"
+						}
+					],
+					"source": "\\begin{dmath*}{}\\left[\\left(\\theta \\theta\\right) \\rightarrow \\theta^{\\alpha} \\theta_{\\alpha}, \\discretionary{}{}{}\\left(\\bar\\theta \\bar\\theta\\right) \\rightarrow \\bar\\theta_{\\dot\\alpha} \\bar\\theta^{\\dot\\alpha}, \\discretionary{}{}{}\\left(\\theta \\sigma^{\\mu} \\bar\\theta\\right) \\rightarrow \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha}\\right]\\end{dmath*}"
+				},
+				{
+					"cell_id": 5228145205631225137,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"cells": [
+						{
+							"cell_id": 10991562647275387463,
+							"cell_origin": "server",
+							"cell_type": "input_form",
+							"source": "{\\theta_{\\alpha} -> \\epsilon_{\\alpha \\beta} \\theta^{\\beta}, \\tbar_{\\aldot} -> \\epsilon_{\\aldot \\betdot} \\tbar^{\\betdot}}"
+						}
+					],
+					"source": "\\begin{dmath*}{}\\left[\\theta_{\\alpha} \\rightarrow \\epsilon_{\\alpha \\beta} \\theta^{\\beta}, \\discretionary{}{}{}\\bar\\theta_{\\dot\\alpha} \\rightarrow \\epsilon_{\\dot\\alpha \\dot\\beta} \\bar\\theta^{\\dot\\beta}\\right]\\end{dmath*}"
+				},
+				{
+					"cell_id": 8464958992678128859,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"cells": [
+						{
+							"cell_id": 12716830655679606138,
+							"cell_origin": "server",
+							"cell_type": "input_form",
+							"source": "\\xi^{\\beta} \\phi_{\\beta} + 2\\xi^{\\alpha} \\theta_{\\alpha} m + 2\\xi^{\\alpha} \\theta_{\\alpha} \\tbar_{\\aldot} \\lambar^{\\aldot} + \\xi^{\\beta} \\tbar_{\\aldot} \\tbar^{\\aldot} \\psi_{\\beta} + 2\\xi^{\\alpha} \\theta_{\\alpha} \\tbar_{\\aldot} \\tbar^{\\aldot} d-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} \\partialmu_{\\mu}(f)-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} \\theta^{\\beta} \\partialmu_{\\mu}(\\phi_{\\beta})-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} \\tbar_{\\betdot} \\partialmu_{\\mu}(\\cbar^{\\betdot})-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} \\theta^{\\beta} \\theta_{\\beta} \\partialmu_{\\mu}(m)-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} \\tbar_{\\betdot} \\tbar^{\\betdot} \\partialmu_{\\mu}(n)-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} \\theta^{\\beta} \\sigma^{\\nu}_{\\beta \\betdot} \\tbar^{\\betdot} \\partialmu_{\\mu}(v_{\\nu})-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} \\theta^{\\beta} \\theta_{\\beta} \\tbar_{\\betdot} \\partialmu_{\\mu}(\\lambar^{\\betdot})-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} \\tbar_{\\betdot} \\tbar^{\\betdot} \\theta^{\\beta} \\partialmu_{\\mu}(\\psi_{\\beta})-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} \\theta^{\\beta} \\theta_{\\beta} \\tbar_{\\betdot} \\tbar^{\\betdot} \\partialmu_{\\mu}(d) + \\xibar_{\\betdot} \\cbar^{\\betdot} + 2\\xibar_{\\aldot} \\tbar^{\\aldot} n + \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\betdot} \\xibar^{\\betdot} v_{\\mu} + \\xibar_{\\betdot} \\theta^{\\alpha} \\theta_{\\alpha} \\lambar^{\\betdot} + 2\\xibar_{\\aldot} \\tbar^{\\aldot} \\theta^{\\alpha} \\psi_{\\alpha} + 2\\xibar_{\\aldot} \\theta^{\\alpha} \\theta_{\\alpha} \\tbar^{\\aldot} d-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\partialmu_{\\mu}(f)-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\theta^{\\beta} \\partialmu_{\\mu}(\\phi_{\\beta})-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\tbar_{\\betdot} \\partialmu_{\\mu}(\\cbar^{\\betdot})-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\theta^{\\beta} \\theta_{\\beta} \\partialmu_{\\mu}(m)-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\tbar_{\\betdot} \\tbar^{\\betdot} \\partialmu_{\\mu}(n)-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\theta^{\\beta} \\sigma^{\\nu}_{\\beta \\betdot} \\tbar^{\\betdot} \\partialmu_{\\mu}(v_{\\nu})-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\theta^{\\beta} \\theta_{\\beta} \\tbar_{\\betdot} \\partialmu_{\\mu}(\\lambar^{\\betdot})-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\tbar_{\\betdot} \\tbar^{\\betdot} \\theta^{\\beta} \\partialmu_{\\mu}(\\psi_{\\beta})-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\theta^{\\beta} \\theta_{\\beta} \\tbar_{\\betdot} \\tbar^{\\betdot} \\partialmu_{\\mu}(d)"
+						}
+					],
+					"source": "\\begin{dmath*}{}\\xi^{\\beta} \\phi_{\\beta}\\discretionary{}{}{}+2\\,\\xi^{\\alpha} \\theta_{\\alpha} m\\discretionary{}{}{}+2\\,\\xi^{\\alpha} \\theta_{\\alpha} \\bar\\theta_{\\dot\\alpha} \\bar\\lambda^{\\dot\\alpha}\\discretionary{}{}{}+\\xi^{\\beta} \\bar\\theta_{\\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\psi_{\\beta}\\discretionary{}{}{}+2\\,\\xi^{\\alpha} \\theta_{\\alpha} \\bar\\theta_{\\dot\\alpha} \\bar\\theta^{\\dot\\alpha} d\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\hat\\partial_{\\mu}\\!{f}\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\theta^{\\beta} \\hat\\partial_{\\mu}\\!{\\phi_{\\beta}}\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\bar\\theta_{\\dot\\beta} \\hat\\partial_{\\mu}\\!{\\bar\\chi^{\\dot\\beta}}\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\theta^{\\beta} \\theta_{\\beta} \\hat\\partial_{\\mu}\\!{m}\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\bar\\theta_{\\dot\\beta} \\bar\\theta^{\\dot\\beta} \\hat\\partial_{\\mu}\\!{n}\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\theta^{\\beta} \\sigma^{\\nu}\\!\\,_{\\beta \\dot\\beta} \\bar\\theta^{\\dot\\beta} \\hat\\partial_{\\mu}\\!{v_{\\nu}}\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\theta^{\\beta} \\theta_{\\beta} \\bar\\theta_{\\dot\\beta} \\hat\\partial_{\\mu}\\!{\\bar\\lambda^{\\dot\\beta}}\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\bar\\theta_{\\dot\\beta} \\bar\\theta^{\\dot\\beta} \\theta^{\\beta} \\hat\\partial_{\\mu}\\!{\\psi_{\\beta}}\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\theta^{\\beta} \\theta_{\\beta} \\bar\\theta_{\\dot\\beta} \\bar\\theta^{\\dot\\beta} \\hat\\partial_{\\mu}\\!{d}\\discretionary{}{}{}+\\bar\\xi_{\\dot\\beta} \\bar\\chi^{\\dot\\beta}\\discretionary{}{}{}+2\\,\\bar\\xi_{\\dot\\alpha} \\bar\\theta^{\\dot\\alpha} n\\discretionary{}{}{}+\\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\beta} \\bar\\xi^{\\dot\\beta} v_{\\mu}\\discretionary{}{}{}+\\bar\\xi_{\\dot\\beta} \\theta^{\\alpha} \\theta_{\\alpha} \\bar\\lambda^{\\dot\\beta}\\discretionary{}{}{}+2\\,\\bar\\xi_{\\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\theta^{\\alpha} \\psi_{\\alpha}\\discretionary{}{}{}%\n+2\\,\\bar\\xi_{\\dot\\alpha} \\theta^{\\alpha} \\theta_{\\alpha} \\bar\\theta^{\\dot\\alpha} d\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\hat\\partial_{\\mu}\\!{f}\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\theta^{\\beta} \\hat\\partial_{\\mu}\\!{\\phi_{\\beta}}\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\bar\\theta_{\\dot\\beta} \\hat\\partial_{\\mu}\\!{\\bar\\chi^{\\dot\\beta}}\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\theta^{\\beta} \\theta_{\\beta} \\hat\\partial_{\\mu}\\!{m}\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\bar\\theta_{\\dot\\beta} \\bar\\theta^{\\dot\\beta} \\hat\\partial_{\\mu}\\!{n}\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\theta^{\\beta} \\sigma^{\\nu}\\!\\,_{\\beta \\dot\\beta} \\bar\\theta^{\\dot\\beta} \\hat\\partial_{\\mu}\\!{v_{\\nu}}\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\theta^{\\beta} \\theta_{\\beta} \\bar\\theta_{\\dot\\beta} \\hat\\partial_{\\mu}\\!{\\bar\\lambda^{\\dot\\beta}}\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\bar\\theta_{\\dot\\beta} \\bar\\theta^{\\dot\\beta} \\theta^{\\beta} \\hat\\partial_{\\mu}\\!{\\psi_{\\beta}}\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\theta^{\\beta} \\theta_{\\beta} \\bar\\theta_{\\dot\\beta} \\bar\\theta^{\\dot\\beta} \\hat\\partial_{\\mu}\\!{d}\\end{dmath*}"
+				},
+				{
+					"cell_id": 12154225284403286172,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"cells": [
+						{
+							"cell_id": 5149968022670450340,
+							"cell_origin": "server",
+							"cell_type": "input_form",
+							"source": "\\xi^{\\beta} \\phi_{\\beta} + 2\\xi^{\\alpha} \\epsilon_{\\alpha \\beta} \\theta^{\\beta} m-2\\xi^{\\alpha} \\epsilon_{\\alpha \\beta} \\theta^{\\beta} \\epsilon_{\\aldot \\betdot} \\tbar^{\\aldot} \\lambar^{\\betdot}-\\xi^{\\beta} \\epsilon_{\\aldot \\betdot} \\tbar^{\\aldot} \\tbar^{\\betdot} \\psi_{\\beta}-2\\xi^{\\alpha} \\epsilon_{\\alpha \\beta} \\theta^{\\beta} \\epsilon_{\\aldot \\betdot} \\tbar^{\\aldot} \\tbar^{\\betdot} d-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} \\partialmu_{\\mu}(f)-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} \\theta^{\\beta} \\partialmu_{\\mu}(\\phi_{\\beta}) + i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} \\epsilon_{\\betdot \\gamdot} \\tbar^{\\betdot} \\partialmu_{\\mu}(\\cbar^{\\gamdot})-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} \\theta^{\\beta} \\epsilon_{\\beta \\gamma} \\theta^{\\gamma} \\partialmu_{\\mu}(m) + i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} \\epsilon_{\\betdot \\gamdot} \\tbar^{\\betdot} \\tbar^{\\gamdot} \\partialmu_{\\mu}(n)-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} \\theta^{\\beta} \\sigma^{\\nu}_{\\beta \\betdot} \\tbar^{\\betdot} \\partialmu_{\\mu}(v_{\\nu}) + i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} \\theta^{\\beta} \\epsilon_{\\beta \\gamma} \\theta^{\\gamma} \\epsilon_{\\betdot \\gamdot} \\tbar^{\\betdot} \\partialmu_{\\mu}(\\lambar^{\\gamdot}) + i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} \\epsilon_{\\betdot \\gamdot} \\tbar^{\\betdot} \\tbar^{\\gamdot} \\theta^{\\beta} \\partialmu_{\\mu}(\\psi_{\\beta}) + i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} \\theta^{\\beta} \\epsilon_{\\beta \\gamma} \\theta^{\\gamma} \\epsilon_{\\betdot \\gamdot} \\tbar^{\\betdot} \\tbar^{\\gamdot} \\partialmu_{\\mu}(d) + \\xibar_{\\betdot} \\cbar^{\\betdot} + 2\\xibar_{\\aldot} \\tbar^{\\aldot} n + \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\betdot} \\xibar^{\\betdot} v_{\\mu} + \\xibar_{\\betdot} \\theta^{\\alpha} \\epsilon_{\\alpha \\beta} \\theta^{\\beta} \\lambar^{\\betdot} + 2\\xibar_{\\aldot} \\tbar^{\\aldot} \\theta^{\\alpha} \\psi_{\\alpha} + 2\\xibar_{\\aldot} \\theta^{\\alpha} \\epsilon_{\\alpha \\beta} \\theta^{\\beta} \\tbar^{\\aldot} d-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\partialmu_{\\mu}(f)-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\theta^{\\beta} \\partialmu_{\\mu}(\\phi_{\\beta}) + i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\epsilon_{\\betdot \\gamdot} \\tbar^{\\betdot} \\partialmu_{\\mu}(\\cbar^{\\gamdot})-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\theta^{\\beta} \\epsilon_{\\beta \\gamma} \\theta^{\\gamma} \\partialmu_{\\mu}(m) + i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\epsilon_{\\betdot \\gamdot} \\tbar^{\\betdot} \\tbar^{\\gamdot} \\partialmu_{\\mu}(n)-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\theta^{\\beta} \\sigma^{\\nu}_{\\beta \\betdot} \\tbar^{\\betdot} \\partialmu_{\\mu}(v_{\\nu}) + i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\theta^{\\beta} \\epsilon_{\\beta \\gamma} \\theta^{\\gamma} \\epsilon_{\\betdot \\gamdot} \\tbar^{\\betdot} \\partialmu_{\\mu}(\\lambar^{\\gamdot}) + i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\epsilon_{\\betdot \\gamdot} \\tbar^{\\betdot} \\tbar^{\\gamdot} \\theta^{\\beta} \\partialmu_{\\mu}(\\psi_{\\beta}) + i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\theta^{\\beta} \\epsilon_{\\beta \\gamma} \\theta^{\\gamma} \\epsilon_{\\betdot \\gamdot} \\tbar^{\\betdot} \\tbar^{\\gamdot} \\partialmu_{\\mu}(d)"
+						}
+					],
+					"source": "\\begin{dmath*}{}\\xi^{\\beta} \\phi_{\\beta}\\discretionary{}{}{}+2\\,\\xi^{\\alpha} \\epsilon_{\\alpha \\beta} \\theta^{\\beta} m\\discretionary{}{}{}-2\\,\\xi^{\\alpha} \\epsilon_{\\alpha \\beta} \\theta^{\\beta} \\epsilon_{\\dot\\alpha \\dot\\beta} \\bar\\theta^{\\dot\\alpha} \\bar\\lambda^{\\dot\\beta}\\discretionary{}{}{}-\\,\\xi^{\\beta} \\epsilon_{\\dot\\alpha \\dot\\beta} \\bar\\theta^{\\dot\\alpha} \\bar\\theta^{\\dot\\beta} \\psi_{\\beta}\\discretionary{}{}{}-2\\,\\xi^{\\alpha} \\epsilon_{\\alpha \\beta} \\theta^{\\beta} \\epsilon_{\\dot\\alpha \\dot\\beta} \\bar\\theta^{\\dot\\alpha} \\bar\\theta^{\\dot\\beta} d\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\hat\\partial_{\\mu}\\!{f}\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\theta^{\\beta} \\hat\\partial_{\\mu}\\!{\\phi_{\\beta}}\\discretionary{}{}{}+i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\epsilon_{\\dot\\beta \\dot\\gamma} \\bar\\theta^{\\dot\\beta} \\hat\\partial_{\\mu}\\!{\\bar\\chi^{\\dot\\gamma}}\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\theta^{\\beta} \\epsilon_{\\beta \\gamma} \\theta^{\\gamma} \\hat\\partial_{\\mu}\\!{m}\\discretionary{}{}{}+i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\epsilon_{\\dot\\beta \\dot\\gamma} \\bar\\theta^{\\dot\\beta} \\bar\\theta^{\\dot\\gamma} \\hat\\partial_{\\mu}\\!{n}\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\theta^{\\beta} \\sigma^{\\nu}\\!\\,_{\\beta \\dot\\beta} \\bar\\theta^{\\dot\\beta} \\hat\\partial_{\\mu}\\!{v_{\\nu}}\\discretionary{}{}{}+i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\theta^{\\beta} \\epsilon_{\\beta \\gamma} \\theta^{\\gamma} \\epsilon_{\\dot\\beta \\dot\\gamma} \\bar\\theta^{\\dot\\beta} \\hat\\partial_{\\mu}\\!{\\bar\\lambda^{\\dot\\gamma}}\\discretionary{}{}{}+i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\epsilon_{\\dot\\beta \\dot\\gamma} \\bar\\theta^{\\dot\\beta} \\bar\\theta^{\\dot\\gamma} \\theta^{\\beta} \\hat\\partial_{\\mu}\\!{\\psi_{\\beta}}\\discretionary{}{}{}+i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\theta^{\\beta} \\epsilon_{\\beta \\gamma} \\theta^{\\gamma} \\epsilon_{\\dot\\beta \\dot\\gamma} \\bar\\theta^{\\dot\\beta} \\bar\\theta^{\\dot\\gamma} \\hat\\partial_{\\mu}\\!{d}\\discretionary{}{}{}+\\bar\\xi_{\\dot\\beta} \\bar\\chi^{\\dot\\beta}\\discretionary{}{}{}+2\\,\\bar\\xi_{\\dot\\alpha} \\bar\\theta^{\\dot\\alpha} n\\discretionary{}{}{}+\\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\beta} \\bar\\xi^{\\dot\\beta} v_{\\mu}\\discretionary{}{}{}+\\bar\\xi_{\\dot\\beta} \\theta^{\\alpha} \\epsilon_{\\alpha \\beta} \\theta^{\\beta} \\bar\\lambda^{\\dot\\beta}\\discretionary{}{}{}+2\\,\\bar\\xi_{\\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\theta^{\\alpha} \\psi_{\\alpha}\\discretionary{}{}{}%\n+2\\,\\bar\\xi_{\\dot\\alpha} \\theta^{\\alpha} \\epsilon_{\\alpha \\beta} \\theta^{\\beta} \\bar\\theta^{\\dot\\alpha} d\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\hat\\partial_{\\mu}\\!{f}\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\theta^{\\beta} \\hat\\partial_{\\mu}\\!{\\phi_{\\beta}}\\discretionary{}{}{}+i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\epsilon_{\\dot\\beta \\dot\\gamma} \\bar\\theta^{\\dot\\beta} \\hat\\partial_{\\mu}\\!{\\bar\\chi^{\\dot\\gamma}}\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\theta^{\\beta} \\epsilon_{\\beta \\gamma} \\theta^{\\gamma} \\hat\\partial_{\\mu}\\!{m}\\discretionary{}{}{}+i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\epsilon_{\\dot\\beta \\dot\\gamma} \\bar\\theta^{\\dot\\beta} \\bar\\theta^{\\dot\\gamma} \\hat\\partial_{\\mu}\\!{n}\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\theta^{\\beta} \\sigma^{\\nu}\\!\\,_{\\beta \\dot\\beta} \\bar\\theta^{\\dot\\beta} \\hat\\partial_{\\mu}\\!{v_{\\nu}}\\discretionary{}{}{}+i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\theta^{\\beta} \\epsilon_{\\beta \\gamma} \\theta^{\\gamma} \\epsilon_{\\dot\\beta \\dot\\gamma} \\bar\\theta^{\\dot\\beta} \\hat\\partial_{\\mu}\\!{\\bar\\lambda^{\\dot\\gamma}}\\discretionary{}{}{}+i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\epsilon_{\\dot\\beta \\dot\\gamma} \\bar\\theta^{\\dot\\beta} \\bar\\theta^{\\dot\\gamma} \\theta^{\\beta} \\hat\\partial_{\\mu}\\!{\\psi_{\\beta}}\\discretionary{}{}{}+i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\theta^{\\beta} \\epsilon_{\\beta \\gamma} \\theta^{\\gamma} \\epsilon_{\\dot\\beta \\dot\\gamma} \\bar\\theta^{\\dot\\beta} \\bar\\theta^{\\dot\\gamma} \\hat\\partial_{\\mu}\\!{d}\\end{dmath*}"
+				},
+				{
+					"cell_id": 15407564065157126172,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"cells": [
+						{
+							"cell_id": 17337186167488815581,
+							"cell_origin": "server",
+							"cell_type": "input_form",
+							"source": " ...  + i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} \\epsilon_{\\betdot \\gamdot} \\tbar^{\\betdot} \\tbar^{\\gamdot} \\partialmu_{\\mu}(n) +  ...  + i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} \\epsilon_{\\betdot \\gamdot} \\tbar^{\\betdot} \\tbar^{\\gamdot} \\theta^{\\beta} \\partialmu_{\\mu}(\\psi_{\\beta}) + i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} \\theta^{\\beta} \\epsilon_{\\beta \\gamma} \\theta^{\\gamma} \\epsilon_{\\betdot \\gamdot} \\tbar^{\\betdot} \\tbar^{\\gamdot} \\partialmu_{\\mu}(d) +  ... -i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\theta^{\\beta} \\epsilon_{\\beta \\gamma} \\theta^{\\gamma} \\partialmu_{\\mu}(m) +  ...  + i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\theta^{\\beta} \\epsilon_{\\beta \\gamma} \\theta^{\\gamma} \\epsilon_{\\betdot \\gamdot} \\tbar^{\\betdot} \\partialmu_{\\mu}(\\lambar^{\\gamdot}) +  ...  + i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\theta^{\\beta} \\epsilon_{\\beta \\gamma} \\theta^{\\gamma} \\epsilon_{\\betdot \\gamdot} \\tbar^{\\betdot} \\tbar^{\\gamdot} \\partialmu_{\\mu}(d)"
+						}
+					],
+					"source": "\\begin{dmath*}{} \\ldots \\discretionary{}{}{}+i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\epsilon_{\\dot\\beta \\dot\\gamma} \\bar\\theta^{\\dot\\beta} \\bar\\theta^{\\dot\\gamma} \\hat\\partial_{\\mu}\\!{n}\\discretionary{}{}{}+ \\ldots \\discretionary{}{}{}+i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\epsilon_{\\dot\\beta \\dot\\gamma} \\bar\\theta^{\\dot\\beta} \\bar\\theta^{\\dot\\gamma} \\theta^{\\beta} \\hat\\partial_{\\mu}\\!{\\psi_{\\beta}}\\discretionary{}{}{}+i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\theta^{\\beta} \\epsilon_{\\beta \\gamma} \\theta^{\\gamma} \\epsilon_{\\dot\\beta \\dot\\gamma} \\bar\\theta^{\\dot\\beta} \\bar\\theta^{\\dot\\gamma} \\hat\\partial_{\\mu}\\!{d}\\discretionary{}{}{}+ \\ldots \\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\theta^{\\beta} \\epsilon_{\\beta \\gamma} \\theta^{\\gamma} \\hat\\partial_{\\mu}\\!{m}\\discretionary{}{}{}+ \\ldots \\discretionary{}{}{}+i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\theta^{\\beta} \\epsilon_{\\beta \\gamma} \\theta^{\\gamma} \\epsilon_{\\dot\\beta \\dot\\gamma} \\bar\\theta^{\\dot\\beta} \\hat\\partial_{\\mu}\\!{\\bar\\lambda^{\\dot\\gamma}}\\discretionary{}{}{}+ \\ldots \\discretionary{}{}{}+i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\theta^{\\beta} \\epsilon_{\\beta \\gamma} \\theta^{\\gamma} \\epsilon_{\\dot\\beta \\dot\\gamma} \\bar\\theta^{\\dot\\beta} \\bar\\theta^{\\dot\\gamma} \\hat\\partial_{\\mu}\\!{d}\\end{dmath*}"
+				},
+				{
+					"cell_id": 8436520838686210094,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"cells": [
+						{
+							"cell_id": 3204224540353054303,
+							"cell_origin": "server",
+							"cell_type": "input_form",
+							"source": " ...  +  ...  +  ...  +  ...  +  ... "
+						}
+					],
+					"source": "\\begin{dmath*}{} \\ldots \\discretionary{}{}{}+ \\ldots \\discretionary{}{}{}+ \\ldots \\discretionary{}{}{}+ \\ldots \\discretionary{}{}{}+ \\ldots \\end{dmath*}"
+				},
+				{
+					"cell_id": 470138733672735757,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"cells": [
+						{
+							"cell_id": 14966502475155104610,
+							"cell_origin": "server",
+							"cell_type": "input_form",
+							"source": "\\xi^{\\beta} \\phi_{\\beta} + 2\\xi^{\\alpha} \\theta_{\\alpha} m + 2\\xi^{\\alpha} \\theta_{\\alpha} \\lambar_{\\aldot} \\tbar^{\\aldot} + \\xi^{\\beta} \\tbar_{\\aldot} \\tbar^{\\aldot} \\psi_{\\beta} + 2\\xi^{\\alpha} \\theta_{\\alpha} \\tbar_{\\aldot} \\tbar^{\\aldot} d-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} \\partialmu_{\\mu}(f)-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} \\theta^{\\beta} \\partialmu_{\\mu}(\\phi_{\\beta}) + i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} \\epsilon_{\\betdot \\gamdot} \\tbar^{\\betdot} \\partialmu_{\\mu}(\\cbar^{\\gamdot})-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} \\theta^{\\beta} \\theta_{\\beta} \\partialmu_{\\mu}(m)-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} \\theta^{\\beta} \\sigma^{\\nu}_{\\beta \\betdot} \\tbar^{\\betdot} \\partialmu_{\\mu}(v_{\\nu}) + i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} \\theta^{\\beta} \\theta_{\\beta} \\epsilon_{\\betdot \\gamdot} \\tbar^{\\betdot} \\partialmu_{\\mu}(\\lambar^{\\gamdot}) + \\xibar_{\\betdot} \\cbar^{\\betdot} + 2\\xibar_{\\aldot} \\tbar^{\\aldot} n + \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\betdot} \\xibar^{\\betdot} v_{\\mu} + \\xibar_{\\betdot} \\theta^{\\alpha} \\theta_{\\alpha} \\lambar^{\\betdot} + 2\\xibar_{\\aldot} \\tbar^{\\aldot} \\theta^{\\alpha} \\psi_{\\alpha} + 2\\xibar_{\\aldot} \\theta^{\\alpha} \\theta_{\\alpha} \\tbar^{\\aldot} d-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\partialmu_{\\mu}(f)-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\theta^{\\beta} \\partialmu_{\\mu}(\\phi_{\\beta}) + i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\epsilon_{\\betdot \\gamdot} \\tbar^{\\betdot} \\partialmu_{\\mu}(\\cbar^{\\gamdot})-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\tbar_{\\betdot} \\tbar^{\\betdot} \\partialmu_{\\mu}(n)-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\theta^{\\beta} \\sigma^{\\nu}_{\\beta \\betdot} \\tbar^{\\betdot} \\partialmu_{\\mu}(v_{\\nu})-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\tbar_{\\betdot} \\tbar^{\\betdot} \\theta^{\\beta} \\partialmu_{\\mu}(\\psi_{\\beta})"
+						}
+					],
+					"source": "\\begin{dmath*}{}\\xi^{\\beta} \\phi_{\\beta}\\discretionary{}{}{}+2\\,\\xi^{\\alpha} \\theta_{\\alpha} m\\discretionary{}{}{}+2\\,\\xi^{\\alpha} \\theta_{\\alpha} \\bar\\lambda_{\\dot\\alpha} \\bar\\theta^{\\dot\\alpha}\\discretionary{}{}{}+\\xi^{\\beta} \\bar\\theta_{\\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\psi_{\\beta}\\discretionary{}{}{}+2\\,\\xi^{\\alpha} \\theta_{\\alpha} \\bar\\theta_{\\dot\\alpha} \\bar\\theta^{\\dot\\alpha} d\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\hat\\partial_{\\mu}\\!{f}\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\theta^{\\beta} \\hat\\partial_{\\mu}\\!{\\phi_{\\beta}}\\discretionary{}{}{}+i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\epsilon_{\\dot\\beta \\dot\\gamma} \\bar\\theta^{\\dot\\beta} \\hat\\partial_{\\mu}\\!{\\bar\\chi^{\\dot\\gamma}}\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\theta^{\\beta} \\theta_{\\beta} \\hat\\partial_{\\mu}\\!{m}\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\theta^{\\beta} \\sigma^{\\nu}\\!\\,_{\\beta \\dot\\beta} \\bar\\theta^{\\dot\\beta} \\hat\\partial_{\\mu}\\!{v_{\\nu}}\\discretionary{}{}{}+i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\theta^{\\beta} \\theta_{\\beta} \\epsilon_{\\dot\\beta \\dot\\gamma} \\bar\\theta^{\\dot\\beta} \\hat\\partial_{\\mu}\\!{\\bar\\lambda^{\\dot\\gamma}}\\discretionary{}{}{}+\\bar\\xi_{\\dot\\beta} \\bar\\chi^{\\dot\\beta}\\discretionary{}{}{}+2\\,\\bar\\xi_{\\dot\\alpha} \\bar\\theta^{\\dot\\alpha} n\\discretionary{}{}{}+\\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\beta} \\bar\\xi^{\\dot\\beta} v_{\\mu}\\discretionary{}{}{}+\\bar\\xi_{\\dot\\beta} \\theta^{\\alpha} \\theta_{\\alpha} \\bar\\lambda^{\\dot\\beta}\\discretionary{}{}{}+2\\,\\bar\\xi_{\\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\theta^{\\alpha} \\psi_{\\alpha}\\discretionary{}{}{}+2\\,\\bar\\xi_{\\dot\\alpha} \\theta^{\\alpha} \\theta_{\\alpha} \\bar\\theta^{\\dot\\alpha} d\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\hat\\partial_{\\mu}\\!{f}\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\theta^{\\beta} \\hat\\partial_{\\mu}\\!{\\phi_{\\beta}}\\discretionary{}{}{}%\n+i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\epsilon_{\\dot\\beta \\dot\\gamma} \\bar\\theta^{\\dot\\beta} \\hat\\partial_{\\mu}\\!{\\bar\\chi^{\\dot\\gamma}}\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\bar\\theta_{\\dot\\beta} \\bar\\theta^{\\dot\\beta} \\hat\\partial_{\\mu}\\!{n}\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\theta^{\\beta} \\sigma^{\\nu}\\!\\,_{\\beta \\dot\\beta} \\bar\\theta^{\\dot\\beta} \\hat\\partial_{\\mu}\\!{v_{\\nu}}\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\bar\\theta_{\\dot\\beta} \\bar\\theta^{\\dot\\beta} \\theta^{\\beta} \\hat\\partial_{\\mu}\\!{\\psi_{\\beta}}\\end{dmath*}"
+				}
+			],
+			"source": "explicit_index:={\n\\indexbracket(\\theta \\theta)->\\theta^{\\alpha} \\theta_{\\alpha},\n\\indexbracket(\\tbar \\tbar)->\\tbar_{\\aldot} \\tbar^{\\aldot},\n\\indexbracket(\\theta \\sigma^\\mu \\tbar)->\\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot},\n};\nraise_indices:={\\theta_{\\alpha}->\\epsilon_{\\alpha \\beta}\\theta^{\\beta},\\tbar_{\\aldot}->\\epsilon_{\\aldot \\betdot}\\tbar^{\\betdot}};\nsubstitute(susy, explicit_index);\nsubstitute(susy, raise_indices);\nzoom(susy, ${\\theta^{\\alpha}\\theta^{\\beta}\\theta^{\\gamma},\\tbar^{\\aldot}\\tbar^{\\betdot}\\tbar^{\\gamdot}$);\nsubstitute(susy, ${\\theta^{\\alpha}->0,\\tbar^{\\aldot}->0}$);\nunzoom(susy)\nsubstitute(susy, eps_contraction,repeat=True);"
+		},
+		{
+			"cell_id": 4943440492024051124,
+			"cell_origin": "client",
+			"cell_type": "latex",
+			"cells": [
+				{
+					"cell_id": 17150545544250786667,
+					"cell_origin": "client",
+					"cell_type": "latex_view",
+					"source": "Next we find anything that can be written as $(\\theta\\theta)$ or $(\\bar\\theta \\bar\\theta)$. After raising the indices, we can adopt the formula\\\\\n\\begin{equation}\n\t\\theta^\\alpha\\theta^\\beta=-\\frac{1}{2}\\epsilon^{\\alpha\\beta}\\theta\\theta,\n\t\\bar\\theta^{\\dot\\alpha}\\bar\\theta^{\\dot\\beta}=\\frac{1}{2}\\epsilon^{\\dot\\alpha\\dot\\beta}\\bar\\theta\\bar\\theta,\n\\end{equation}"
+				}
+			],
+			"hidden": true,
+			"source": "Next we find anything that can be written as $(\\theta\\theta)$ or $(\\bar\\theta \\bar\\theta)$. After raising the indices, we can adopt the formula\\\\\n\\begin{equation}\n\t\\theta^\\alpha\\theta^\\beta=-\\frac{1}{2}\\epsilon^{\\alpha\\beta}\\theta\\theta,\n\t\\bar\\theta^{\\dot\\alpha}\\bar\\theta^{\\dot\\beta}=\\frac{1}{2}\\epsilon^{\\dot\\alpha\\dot\\beta}\\bar\\theta\\bar\\theta,\n\\end{equation}"
+		},
+		{
+			"cell_id": 2788398121861978596,
+			"cell_origin": "client",
+			"cell_type": "input",
+			"cells": [
+				{
+					"cell_id": 18041696285990190104,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"cells": [
+						{
+							"cell_id": 18037570297996237459,
+							"cell_origin": "server",
+							"cell_type": "input_form",
+							"source": "{\\theta^{\\alpha} \\theta^{\\beta} with \\unequals(\\alpha , \\beta) ->  -  1/2 \\epsilon^{\\alpha \\beta} (\\theta \\theta), \\tbar^{\\aldot} \\tbar^{\\betdot} with \\unequals(a , b) ->  1/2 \\epsilon^{\\aldot \\betdot} (\\tbar \\tbar)}"
+						}
+					],
+					"source": "\\begin{dmath*}{}\\left[\\theta^{\\alpha} \\theta^{\\beta}\\quad\\text{with}\\quad{}\\alpha \\not= \\beta \\rightarrow  - \\frac{1}{2}\\,\\epsilon^{\\alpha \\beta} \\left(\\theta \\theta\\right), \\discretionary{}{}{}\\bar\\theta^{\\dot\\alpha} \\bar\\theta^{\\dot\\beta}\\quad\\text{with}\\quad{}a \\not= b \\rightarrow \\frac{1}{2}\\,\\epsilon^{\\dot\\alpha \\dot\\beta} \\left(\\bar\\theta \\bar\\theta\\right)\\right]\\end{dmath*}"
+				},
+				{
+					"cell_id": 3677913182862951954,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"cells": [
+						{
+							"cell_id": 11760867378930828075,
+							"cell_origin": "server",
+							"cell_type": "input_form",
+							"source": "\\xi^{\\beta} \\phi_{\\beta} + 2\\xi^{\\alpha} \\theta_{\\alpha} m + 2\\xi^{\\alpha} \\theta_{\\alpha} \\lambar_{\\aldot} \\tbar^{\\aldot} + \\xi^{\\beta} (\\tbar \\tbar) \\psi_{\\beta} + 2\\xi^{\\alpha} \\theta_{\\alpha} (\\tbar \\tbar) d-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} \\partialmu_{\\mu}(f)-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} \\theta^{\\beta} \\partialmu_{\\mu}(\\phi_{\\beta}) +  1/2 i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\epsilon^{\\aldot \\betdot} (\\tbar \\tbar) \\epsilon_{\\betdot \\gamdot} \\partialmu_{\\mu}(\\cbar^{\\gamdot})-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} (\\theta \\theta) \\partialmu_{\\mu}(m) +  1/2 i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\epsilon^{\\aldot \\betdot} (\\tbar \\tbar) \\theta^{\\beta} \\sigma^{\\nu}_{\\beta \\betdot} \\partialmu_{\\mu}(v_{\\nu}) +  1/2 i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\epsilon^{\\aldot \\betdot} (\\tbar \\tbar) (\\theta \\theta) \\epsilon_{\\betdot \\gamdot} \\partialmu_{\\mu}(\\lambar^{\\gamdot}) + \\xibar_{\\betdot} \\cbar^{\\betdot} + 2\\xibar_{\\aldot} \\tbar^{\\aldot} n + \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\betdot} \\xibar^{\\betdot} v_{\\mu} + \\xibar_{\\betdot} (\\theta \\theta) \\lambar^{\\betdot} + 2\\xibar_{\\aldot} \\tbar^{\\aldot} \\theta^{\\alpha} \\psi_{\\alpha} + 2\\xibar_{\\aldot} (\\theta \\theta) \\tbar^{\\aldot} d-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\partialmu_{\\mu}(f) +  1/2 i \\epsilon^{\\alpha \\beta} (\\theta \\theta) \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\partialmu_{\\mu}(\\phi_{\\beta}) + i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\epsilon_{\\betdot \\gamdot} \\tbar^{\\betdot} \\partialmu_{\\mu}(\\cbar^{\\gamdot})-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} (\\tbar \\tbar) \\partialmu_{\\mu}(n) +  1/2 i \\epsilon^{\\alpha \\beta} (\\theta \\theta) \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\sigma^{\\nu}_{\\beta \\betdot} \\tbar^{\\betdot} \\partialmu_{\\mu}(v_{\\nu}) +  1/2 i \\epsilon^{\\alpha \\beta} (\\theta \\theta) \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} (\\tbar \\tbar) \\partialmu_{\\mu}(\\psi_{\\beta})"
+						}
+					],
+					"source": "\\begin{dmath*}{}\\xi^{\\beta} \\phi_{\\beta}\\discretionary{}{}{}+2\\,\\xi^{\\alpha} \\theta_{\\alpha} m\\discretionary{}{}{}+2\\,\\xi^{\\alpha} \\theta_{\\alpha} \\bar\\lambda_{\\dot\\alpha} \\bar\\theta^{\\dot\\alpha}\\discretionary{}{}{}+\\xi^{\\beta} \\left(\\bar\\theta \\bar\\theta\\right) \\psi_{\\beta}\\discretionary{}{}{}+2\\,\\xi^{\\alpha} \\theta_{\\alpha} \\left(\\bar\\theta \\bar\\theta\\right) d\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\hat\\partial_{\\mu}\\!{f}\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\theta^{\\beta} \\hat\\partial_{\\mu}\\!{\\phi_{\\beta}}\\discretionary{}{}{}+\\frac{1}{2}\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\epsilon^{\\dot\\alpha \\dot\\beta} \\left(\\bar\\theta \\bar\\theta\\right) \\epsilon_{\\dot\\beta \\dot\\gamma} \\hat\\partial_{\\mu}\\!{\\bar\\chi^{\\dot\\gamma}}\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\left(\\theta \\theta\\right) \\hat\\partial_{\\mu}\\!{m}\\discretionary{}{}{}+\\frac{1}{2}\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\epsilon^{\\dot\\alpha \\dot\\beta} \\left(\\bar\\theta \\bar\\theta\\right) \\theta^{\\beta} \\sigma^{\\nu}\\!\\,_{\\beta \\dot\\beta} \\hat\\partial_{\\mu}\\!{v_{\\nu}}\\discretionary{}{}{}+\\frac{1}{2}\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\epsilon^{\\dot\\alpha \\dot\\beta} \\left(\\bar\\theta \\bar\\theta\\right) \\left(\\theta \\theta\\right) \\epsilon_{\\dot\\beta \\dot\\gamma} \\hat\\partial_{\\mu}\\!{\\bar\\lambda^{\\dot\\gamma}}\\discretionary{}{}{}+\\bar\\xi_{\\dot\\beta} \\bar\\chi^{\\dot\\beta}\\discretionary{}{}{}+2\\,\\bar\\xi_{\\dot\\alpha} \\bar\\theta^{\\dot\\alpha} n\\discretionary{}{}{}+\\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\beta} \\bar\\xi^{\\dot\\beta} v_{\\mu}\\discretionary{}{}{}+\\bar\\xi_{\\dot\\beta} \\left(\\theta \\theta\\right) \\bar\\lambda^{\\dot\\beta}\\discretionary{}{}{}+2\\,\\bar\\xi_{\\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\theta^{\\alpha} \\psi_{\\alpha}\\discretionary{}{}{}+2\\,\\bar\\xi_{\\dot\\alpha} \\left(\\theta \\theta\\right) \\bar\\theta^{\\dot\\alpha} d\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\hat\\partial_{\\mu}\\!{f}\\discretionary{}{}{}+\\frac{1}{2}\\,i \\epsilon^{\\alpha \\beta} \\left(\\theta \\theta\\right) \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\hat\\partial_{\\mu}\\!{\\phi_{\\beta}}\\discretionary{}{}{}%\n+i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\epsilon_{\\dot\\beta \\dot\\gamma} \\bar\\theta^{\\dot\\beta} \\hat\\partial_{\\mu}\\!{\\bar\\chi^{\\dot\\gamma}}\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\left(\\bar\\theta \\bar\\theta\\right) \\hat\\partial_{\\mu}\\!{n}\\discretionary{}{}{}+\\frac{1}{2}\\,i \\epsilon^{\\alpha \\beta} \\left(\\theta \\theta\\right) \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\sigma^{\\nu}\\!\\,_{\\beta \\dot\\beta} \\bar\\theta^{\\dot\\beta} \\hat\\partial_{\\mu}\\!{v_{\\nu}}\\discretionary{}{}{}+\\frac{1}{2}\\,i \\epsilon^{\\alpha \\beta} \\left(\\theta \\theta\\right) \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\left(\\bar\\theta \\bar\\theta\\right) \\hat\\partial_{\\mu}\\!{\\psi_{\\beta}}\\end{dmath*}"
+				}
+			],
+			"source": "tt_contraction:={\n\\theta^{\\alpha}\\theta^{\\beta}|\\alpha != \\beta->-1/2 \\epsilon^{\\alpha \\beta} \\indexbracket{\\theta\\theta},\n\\tbar^{\\aldot}\\tbar^{\\betdot}|a != b->1/2 \\epsilon^{\\aldot \\betdot} \\indexbracket{\\tbar\\tbar},\n\n};\nsubstitute(susy, eps_contraction,repeat=True)\nsubstitute(susy, raise_indices,repeat=True)\nsubstitute(susy, tt_contraction,repeat=True)\nsubstitute(susy, eps_contraction,repeat=True);"
+		},
+		{
+			"cell_id": 7007859224669540881,
+			"cell_origin": "client",
+			"cell_type": "latex",
+			"cells": [
+				{
+					"cell_id": 8338177023006971649,
+					"cell_origin": "client",
+					"cell_type": "latex_view",
+					"source": "Another type of combination is $\\theta\\bar\\theta$, for which we use the formula\\\\\n\\begin{equation}\n\t\\theta^{\\alpha}\\bar\\theta^{\\dot\\alpha}=-\\frac{1}{2}(\\theta\\sigma^\\mu\\bar\\theta)\\epsilon^{\\alpha\\dot\\beta}\\sigma_{\\mu\\dot\\beta\\beta}\\epsilon^{\\beta\\dot\\alpha}\n\\end{equation}"
+				}
+			],
+			"source": "Another type of combination is $\\theta\\bar\\theta$, for which we use the formula\\\\\n\\begin{equation}\n\t\\theta^{\\alpha}\\bar\\theta^{\\dot\\alpha}=-\\frac{1}{2}(\\theta\\sigma^\\mu\\bar\\theta)\\bar\\sigma^{\\dot\\alpha \\alpha}\n\\end{equation}"
+		},
+		{
+			"cell_id": 83895298989889908,
+			"cell_origin": "client",
+			"cell_type": "input",
+			"cells": [
+				{
+					"cell_id": 5306912848723676336,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"cells": [
+						{
+							"cell_id": 3050692885297762781,
+							"cell_origin": "server",
+							"cell_type": "input_form",
+							"source": "\\theta^{\\alpha} \\tbar^{\\aldot} ->  -  1/2 (\\theta \\sigma^{\\mu} \\tbar) \\sigbar_{\\mu}^{\\aldot \\alpha}"
+						}
+					],
+					"source": "\\begin{dmath*}{}\\theta^{\\alpha} \\bar\\theta^{\\dot\\alpha} \\rightarrow  - \\frac{1}{2}\\,\\left(\\theta \\sigma^{\\mu} \\bar\\theta\\right) \\bar\\sigma_{\\mu}\\!\\,^{\\dot\\alpha \\alpha}\\end{dmath*}"
+				},
+				{
+					"cell_id": 14018675461827630815,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"cells": [
+						{
+							"cell_id": 10391598099505871943,
+							"cell_origin": "server",
+							"cell_type": "input_form",
+							"source": "\\xi^{\\beta} \\phi_{\\beta} + 2\\xi^{\\alpha} \\theta_{\\alpha} m + \\xi^{\\alpha} \\epsilon_{\\alpha \\beta} (\\theta \\sigma^{\\mu} \\tbar) \\sigbar_{\\mu}^{\\aldot \\beta} \\lambar_{\\aldot} + \\xi^{\\beta} (\\tbar \\tbar) \\psi_{\\beta} + 2\\xi^{\\alpha} \\theta_{\\alpha} (\\tbar \\tbar) d-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} \\partialmu_{\\mu}(f) -  1/2 i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} (\\theta \\sigma^{\\nu} \\tbar) \\sigbar_{\\nu}^{\\aldot \\beta} \\partialmu_{\\mu}(\\phi_{\\beta}) +  1/2 i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\epsilon^{\\aldot \\betdot} (\\tbar \\tbar) \\epsilon_{\\betdot \\gamdot} \\partialmu_{\\mu}(\\cbar^{\\gamdot})-i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\tbar^{\\aldot} (\\theta \\theta) \\partialmu_{\\mu}(m) +  1/2 i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\epsilon^{\\aldot \\betdot} (\\tbar \\tbar) \\theta^{\\beta} \\sigma^{\\nu}_{\\beta \\betdot} \\partialmu_{\\mu}(v_{\\nu}) +  1/2 i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\epsilon^{\\aldot \\betdot} (\\tbar \\tbar) (\\theta \\theta) \\epsilon_{\\betdot \\gamdot} \\partialmu_{\\mu}(\\lambar^{\\gamdot}) + \\xibar_{\\betdot} \\cbar^{\\betdot} + 2\\xibar_{\\aldot} \\tbar^{\\aldot} n + \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\betdot} \\xibar^{\\betdot} v_{\\mu} + \\xibar_{\\betdot} (\\theta \\theta) \\lambar^{\\betdot} + \\xibar_{\\aldot} (\\theta \\sigma^{\\mu} \\tbar) \\sigbar_{\\mu}^{\\aldot \\alpha} \\psi_{\\alpha} + 2\\xibar_{\\aldot} (\\theta \\theta) \\tbar^{\\aldot} d-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\partialmu_{\\mu}(f) +  1/2 i \\epsilon^{\\alpha \\beta} (\\theta \\theta) \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\partialmu_{\\mu}(\\phi_{\\beta}) -  1/2 i (\\theta \\sigma^{\\nu} \\tbar) \\sigbar_{\\nu}^{\\aldot \\alpha} \\sigma^{\\mu}_{\\alpha \\betdot} \\xibar^{\\betdot} \\epsilon_{\\aldot \\gamdot} \\partialmu_{\\mu}(\\cbar^{\\gamdot})-i \\theta^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} (\\tbar \\tbar) \\partialmu_{\\mu}(n) +  1/2 i \\epsilon^{\\alpha \\beta} (\\theta \\theta) \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} \\sigma^{\\nu}_{\\beta \\betdot} \\tbar^{\\betdot} \\partialmu_{\\mu}(v_{\\nu}) +  1/2 i \\epsilon^{\\alpha \\beta} (\\theta \\theta) \\sigma^{\\mu}_{\\alpha \\aldot} \\xibar^{\\aldot} (\\tbar \\tbar) \\partialmu_{\\mu}(\\psi_{\\beta})"
+						}
+					],
+					"source": "\\begin{dmath*}{}\\xi^{\\beta} \\phi_{\\beta}\\discretionary{}{}{}+2\\,\\xi^{\\alpha} \\theta_{\\alpha} m\\discretionary{}{}{}+\\xi^{\\alpha} \\epsilon_{\\alpha \\beta} \\left(\\theta \\sigma^{\\mu} \\bar\\theta\\right) \\bar\\sigma_{\\mu}\\!\\,^{\\dot\\alpha \\beta} \\bar\\lambda_{\\dot\\alpha}\\discretionary{}{}{}+\\xi^{\\beta} \\left(\\bar\\theta \\bar\\theta\\right) \\psi_{\\beta}\\discretionary{}{}{}+2\\,\\xi^{\\alpha} \\theta_{\\alpha} \\left(\\bar\\theta \\bar\\theta\\right) d\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\hat\\partial_{\\mu}\\!{f}\\discretionary{}{}{} - \\frac{1}{2}\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\left(\\theta \\sigma^{\\nu} \\bar\\theta\\right) \\bar\\sigma_{\\nu}\\!\\,^{\\dot\\alpha \\beta} \\hat\\partial_{\\mu}\\!{\\phi_{\\beta}}\\discretionary{}{}{}+\\frac{1}{2}\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\epsilon^{\\dot\\alpha \\dot\\beta} \\left(\\bar\\theta \\bar\\theta\\right) \\epsilon_{\\dot\\beta \\dot\\gamma} \\hat\\partial_{\\mu}\\!{\\bar\\chi^{\\dot\\gamma}}\\discretionary{}{}{}-\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\theta^{\\dot\\alpha} \\left(\\theta \\theta\\right) \\hat\\partial_{\\mu}\\!{m}\\discretionary{}{}{}+\\frac{1}{2}\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\epsilon^{\\dot\\alpha \\dot\\beta} \\left(\\bar\\theta \\bar\\theta\\right) \\theta^{\\beta} \\sigma^{\\nu}\\!\\,_{\\beta \\dot\\beta} \\hat\\partial_{\\mu}\\!{v_{\\nu}}\\discretionary{}{}{}+\\frac{1}{2}\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\epsilon^{\\dot\\alpha \\dot\\beta} \\left(\\bar\\theta \\bar\\theta\\right) \\left(\\theta \\theta\\right) \\epsilon_{\\dot\\beta \\dot\\gamma} \\hat\\partial_{\\mu}\\!{\\bar\\lambda^{\\dot\\gamma}}\\discretionary{}{}{}+\\bar\\xi_{\\dot\\beta} \\bar\\chi^{\\dot\\beta}\\discretionary{}{}{}+2\\,\\bar\\xi_{\\dot\\alpha} \\bar\\theta^{\\dot\\alpha} n\\discretionary{}{}{}+\\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\beta} \\bar\\xi^{\\dot\\beta} v_{\\mu}\\discretionary{}{}{}+\\bar\\xi_{\\dot\\beta} \\left(\\theta \\theta\\right) \\bar\\lambda^{\\dot\\beta}\\discretionary{}{}{}+\\bar\\xi_{\\dot\\alpha} \\left(\\theta \\sigma^{\\mu} \\bar\\theta\\right) \\bar\\sigma_{\\mu}\\!\\,^{\\dot\\alpha \\alpha} \\psi_{\\alpha}\\discretionary{}{}{}+2\\,\\bar\\xi_{\\dot\\alpha} \\left(\\theta \\theta\\right) \\bar\\theta^{\\dot\\alpha} d\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\hat\\partial_{\\mu}\\!{f}\\discretionary{}{}{}+\\frac{1}{2}\\,i \\epsilon^{\\alpha \\beta} \\left(\\theta \\theta\\right) \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\hat\\partial_{\\mu}\\!{\\phi_{\\beta}}\\discretionary{}{}{}%\n - \\frac{1}{2}\\,i \\left(\\theta \\sigma^{\\nu} \\bar\\theta\\right) \\bar\\sigma_{\\nu}\\!\\,^{\\dot\\alpha \\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\beta} \\bar\\xi^{\\dot\\beta} \\epsilon_{\\dot\\alpha \\dot\\gamma} \\hat\\partial_{\\mu}\\!{\\bar\\chi^{\\dot\\gamma}}\\discretionary{}{}{}-\\,i \\theta^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\left(\\bar\\theta \\bar\\theta\\right) \\hat\\partial_{\\mu}\\!{n}\\discretionary{}{}{}+\\frac{1}{2}\\,i \\epsilon^{\\alpha \\beta} \\left(\\theta \\theta\\right) \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\sigma^{\\nu}\\!\\,_{\\beta \\dot\\beta} \\bar\\theta^{\\dot\\beta} \\hat\\partial_{\\mu}\\!{v_{\\nu}}\\discretionary{}{}{}+\\frac{1}{2}\\,i \\epsilon^{\\alpha \\beta} \\left(\\theta \\theta\\right) \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\bar\\xi^{\\dot\\alpha} \\left(\\bar\\theta \\bar\\theta\\right) \\hat\\partial_{\\mu}\\!{\\psi_{\\beta}}\\end{dmath*}"
+				}
+			],
+			"source": "Fierz_contraction:={\n\\theta^{\\alpha}\\tbar^{\\aldot}->-1/2\\indexbracket{\\theta \\sigma^\\mu \\tbar} \\sigbar_{\\mu}^{\\aldot\\alpha}\n};\nsubstitute(susy, raise_indices,repeat=True)\nsubstitute(susy, Fierz_contraction)\nsubstitute(susy, eps_contraction,repeat=True);"
+		},
+		{
+			"cell_id": 17410028064502100461,
+			"cell_origin": "client",
+			"cell_type": "input",
+			"cells": [
+				{
+					"cell_id": 10419674523339487928,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"cells": [
+						{
+							"cell_id": 14549411377983701756,
+							"cell_origin": "server",
+							"cell_type": "input_form",
+							"source": " 1/2 i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\epsilon^{\\aldot \\betdot} \\tbar \\tbar \\epsilon_{\\betdot \\gamdot} \\partialmu_{\\mu}(\\cbar^{\\gamdot})"
+						}
+					],
+					"source": "\\begin{dmath*}{}\\frac{1}{2}\\,i \\xi^{\\alpha} \\sigma^{\\mu}\\!\\,_{\\alpha \\dot\\alpha} \\epsilon^{\\dot\\alpha \\dot\\beta} \\bar\\theta \\bar\\theta \\epsilon_{\\dot\\beta \\dot\\gamma} \\hat\\partial_{\\mu}\\!{\\bar\\chi^{\\dot\\gamma}}\\end{dmath*}"
+				}
+			],
+			"source": "substitute($1/2 i \\xi^{\\alpha} \\sigma^{\\mu}_{\\alpha \\aldot} \\epsilon^{\\aldot \\betdot} (\\tbar \\tbar) \\epsilon_{\\betdot \\gamdot} \\partialmu_{\\mu}(\\cbar^{\\gamdot})$,eps_contraction);"
+		},
+		{
+			"cell_id": 9105212906095346347,
+			"cell_origin": "client",
+			"cell_type": "input",
+			"cells": [
+				{
+					"cell_id": 1459879317314030653,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"cells": [
+						{
+							"cell_id": 8330800432366943316,
+							"cell_origin": "server",
+							"cell_type": "input_form",
+							"source": "\\epsilon^{\\aldot \\betdot} \\epsilon_{\\betdot \\gamdot} \\delta_{\\alpha}^{\\eta} \\partialmu_{\\mu}(\\cbar^{\\gamdot})"
+						}
+					],
+					"source": "\\begin{dmath*}{}\\epsilon^{\\dot\\alpha \\dot\\beta} \\epsilon_{\\dot\\beta \\dot\\gamma} \\delta_{\\alpha}\\!\\,^{\\eta} \\hat\\partial_{\\mu}\\!{\\bar\\chi^{\\dot\\gamma}}\\end{dmath*}"
+				}
+			],
+			"source": "substitute($\\epsilon^{\\aldot \\betdot} \\epsilon_{\\betdot \\gamdot} \\epsilon^{\\eta \\zeta}\\epsilon_{\\zeta \\alpha} \\partialmu_{\\mu}(\\cbar^{\\gamdot})$,eps_contraction);"
+		},
+		{
+			"cell_id": 15079149429776328371,
+			"cell_origin": "client",
+			"cell_type": "input",
+			"cells": [
+				{
+					"cell_id": 17900785612403861583,
+					"cell_origin": "server",
+					"cell_type": "latex_view",
+					"cells": [
+						{
+							"cell_id": 6357936147420761372,
+							"cell_origin": "server",
+							"cell_type": "input_form",
+							"source": "-\\epsilon^{\\aldot \\betdot} \\epsilon_{\\gamdot \\betdot} \\delta_{\\beta}^{\\eta}"
+						}
+					],
+					"source": "\\begin{dmath*}{}-\\,\\epsilon^{\\dot\\alpha \\dot\\beta} \\epsilon_{\\dot\\gamma \\dot\\beta} \\delta_{\\beta}\\!\\,^{\\eta}\\end{dmath*}"
+				}
+			],
+			"source": "substitute($\\epsilon^{\\aldot \\betdot} \\epsilon_{\\betdot \\gamdot}\\epsilon^{\\eta \\zeta}\\epsilon_{\\zeta \\beta} $,eps_contraction);"
+		},
+		{
+			"cell_id": 12523312647619225608,
+			"cell_origin": "client",
+			"cell_type": "input",
+			"source": ""
+		}
+	],
+	"description": "Cadabra JSON notebook format",
+	"flags": {
+		"hide_input_cells": false
+	},
+	"version": 1.0
+}
