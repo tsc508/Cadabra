@@ -1,2 +1,4 @@
 # Cadabra
 These are the programs used in the symbolic computer algebra system Cadabra. 
+The official website of Cadabra is: https://cadabra.science/
+There are multiple ways to use Cadabra. For example, one can download the software Cadabra directly, and run programs with extension .cnb on it. Another convenient way is to use the Jupyter server following the instructions in https://hub.docker.com/r/kpeeters/cadabra2-jupyter. For example, on my computer I simply run Docker Desktop and input "docker run -p 9057:9057 -v "D:/TSC:/home/cadabra" kpeeters/cadabra2-jupyter" in CMD, and this will start the notebook in the directory D:/TSC:/. However, if you use the Jupyer server, it can only run programs with extension .ipynb. To transform a .cnb file into a .ipynb file, choose File->Export as Jupyter notebook in Cadabra, but unfortunately I do not know how to do the inverse. 
